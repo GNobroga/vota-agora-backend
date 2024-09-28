@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import AdminModule from './modules/admin/v1/admin-v1.module';
+import AdminModule from './modules/admin/admin.module';
 import AppConfig from './modules/shared/app.config';
 import SharedModule from './modules/shared/shared.module';
-import UserModule from './modules/users/v1/user-v1.module';
+import UserModule from './modules/users/user.module';
 
 @Module({
   imports: [

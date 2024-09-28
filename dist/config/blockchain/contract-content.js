@@ -28,6 +28,8 @@ const CONTRACT = `
 
         mapping(address => uint256) private _balances;
 
+        mapping(uint256 => address[]) private _publicConsultation;
+
         constructor(uint256 initialSupply) {
             _mint(msg.sender, initialSupply);
             _name = "Gabriel Livia Token";
@@ -44,6 +46,18 @@ const CONTRACT = `
             _balances[account_] += amount_; 
             emit Transfer(address(0), account_, amount_);
         }
+
+        function castVote(uint256 publicConsultationId_) public returns (bool) {
+            address[] storage addresses = _publicConsultation[publicConsultationId_];
+            for (uint256 i = 0 ; i < addresses.length ; i++) {
+                if (addresses[i] == msg.sender) {
+                    return false;
+                }
+            }
+            addresses.push(msg.sender);
+            return true;
+        }
+
 
         function name() public view returns(string memory) {
             return _name;

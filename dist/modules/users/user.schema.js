@@ -64,7 +64,9 @@ _ts_decorate([
     _ts_metadata("design:type", String)
 ], User.prototype, "role", void 0);
 User = _ts_decorate([
-    (0, _mongoose.Schema)(),
+    (0, _mongoose.Schema)({
+        collection: 'users'
+    }),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof Partial === "undefined" ? Object : Partial

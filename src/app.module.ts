@@ -5,6 +5,7 @@ import AppConfig from './modules/shared/app.config';
 import SharedModule from './modules/shared/shared.module';
 import UserModule from './modules/users/user.module';
 import AuthModule from './modules/auth/auth.module';
+import PublicConsultationModule from './modules/public-consultation/public-consultation.module';
 
 @Module({
   imports: [
@@ -13,15 +14,18 @@ import AuthModule from './modules/auth/auth.module';
       useFactory(appConfig: AppConfig) {
         return {
           uri: appConfig.databaseURL,
-        }
+        };
       },
       inject: [AppConfig],
-      imports: [SharedModule, AdminModule, UserModule, AuthModule],
+      imports: [
+        SharedModule,
+        AdminModule,
+        UserModule,
+        AuthModule,
+        PublicConsultationModule,
+      ],
     }),
   ],
   controllers: [],
 })
-export class AppModule {
-
-  
-}
+export class AppModule {}

@@ -6,7 +6,7 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-@Schema()
+@Schema({ collection: 'users' })
 export class User {
     @Prop()
     fullName: string;

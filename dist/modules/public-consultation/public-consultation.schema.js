@@ -17,6 +17,7 @@ _export(exports, {
     }
 });
 const _mongoose = require("@nestjs/mongoose");
+const _mongoose1 = require("mongoose");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -27,12 +28,13 @@ function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 }
 let PublicConsultation = class PublicConsultation {
-    static create(title, description, initialDate, endDate) {
+    static create(owner, title, description, initialDate, endDate) {
         return new PublicConsultation({
             title,
             description,
             initialDate,
-            endDate
+            endDate,
+            owner
         });
     }
     static update(title, description, imageUrl = undefined) {
@@ -48,6 +50,7 @@ let PublicConsultation = class PublicConsultation {
         this.initialDate = props?.initialDate ?? this.initialDate;
         this.endDate = props?.endDate ?? this.endDate;
         this.imageUrl = props?.imageUrl ?? this.imageUrl;
+        this.owner = props?.owner ?? this.owner;
     }
 };
 _ts_decorate([
@@ -66,6 +69,13 @@ _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], PublicConsultation.prototype, "initialDate", void 0);
+_ts_decorate([
+    (0, _mongoose.Prop)({
+        type: _mongoose1.Types.ObjectId,
+        ref: 'User'
+    }),
+    _ts_metadata("design:type", Object)
+], PublicConsultation.prototype, "owner", void 0);
 _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)

@@ -1,4 +1,10 @@
 
+export type PublicConsultationOwner = {
+    id: string;
+    fullName: string;
+    document: string;
+}
+
 export default class PublicConsultationResponseDTO {
     id: string;
     title: string;
@@ -6,6 +12,7 @@ export default class PublicConsultationResponseDTO {
     initialDate: Date;
     endDate: Date;
     imageUrl: string;
+    owner: PublicConsultationOwner;
 
     constructor(props: Partial<PublicConsultationResponseDTO>) {
         Object.assign(this, { ...props });

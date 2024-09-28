@@ -24,6 +24,11 @@ _ts_decorate([
     (0, _classvalidator.IsString)(),
     (0, _classvalidator.IsNotEmpty)(),
     _ts_metadata("design:type", String)
+], UpdatePublicConsultationRequestDTO.prototype, "id", void 0);
+_ts_decorate([
+    (0, _classvalidator.IsString)(),
+    (0, _classvalidator.IsNotEmpty)(),
+    _ts_metadata("design:type", String)
 ], UpdatePublicConsultationRequestDTO.prototype, "title", void 0);
 _ts_decorate([
     (0, _classvalidator.IsString)(),
@@ -33,6 +38,7 @@ _ts_decorate([
 ], UpdatePublicConsultationRequestDTO.prototype, "description", void 0);
 _ts_decorate([
     (0, _classvalidator.IsUrl)(),
+    (0, _classvalidator.IsOptional)(),
     _ts_metadata("design:type", String)
 ], UpdatePublicConsultationRequestDTO.prototype, "imageUrl", void 0);
 

@@ -15,6 +15,7 @@ const _appconfig = /*#__PURE__*/ _interop_require_default(require("./modules/sha
 const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("./modules/shared/shared.module"));
 const _usermodule = /*#__PURE__*/ _interop_require_default(require("./modules/users/user.module"));
 const _authmodule = /*#__PURE__*/ _interop_require_default(require("./modules/auth/auth.module"));
+const _publicconsultationmodule = /*#__PURE__*/ _interop_require_default(require("./modules/public-consultation/public-consultation.module"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -45,7 +46,8 @@ AppModule = _ts_decorate([
                     _sharedmodule.default,
                     _adminmodule.default,
                     _usermodule.default,
-                    _authmodule.default
+                    _authmodule.default,
+                    _publicconsultationmodule.default
                 ]
             })
         ],

@@ -24,14 +24,12 @@ let AuthGuard = class AuthGuard {
         const http = context.switchToHttp();
         const request = http.getRequest();
         const token = this.extractTokenFromHeader(request);
-        console.log(token);
         if (!token) {
             return false;
         }
         try {
             const payload = await this._jwtService.verifyAsync(token);
             request['user'] = payload;
-            console.log(payload);
             return true;
         } catch  {
             return false;

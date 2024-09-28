@@ -8,6 +8,7 @@ Object.defineProperty(exports, "default", {
         return CreatePublicConsultationRequestDTO;
     }
 });
+const _classtransformer = require("class-transformer");
 const _classvalidator = require("class-validator");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -31,15 +32,18 @@ _ts_decorate([
     _ts_metadata("design:type", String)
 ], CreatePublicConsultationRequestDTO.prototype, "description", void 0);
 _ts_decorate([
+    (0, _classtransformer.Type)(()=>Date),
     (0, _classvalidator.IsDate)(),
     (0, _classvalidator.IsNotEmpty)(),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], CreatePublicConsultationRequestDTO.prototype, "initialDate", void 0);
 _ts_decorate([
     (0, _classvalidator.IsUrl)(),
+    (0, _classvalidator.IsOptional)(),
     _ts_metadata("design:type", String)
 ], CreatePublicConsultationRequestDTO.prototype, "imageUrl", void 0);
 _ts_decorate([
+    (0, _classtransformer.Type)(()=>Date),
     (0, _classvalidator.IsDate)(),
     (0, _classvalidator.IsNotEmpty)(),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)

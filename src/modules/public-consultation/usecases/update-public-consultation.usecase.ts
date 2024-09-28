@@ -1,7 +1,7 @@
 import { Inject, NotFoundException } from "@nestjs/common";
 import IUnaryUseCase from "src/core/usecases/unary.usecase";
-import UpdatePublicConsultationRequestDTO from "../dtos/request/update-public-consultation-request.dto";
 import { IPublicConsultationRepository, PUBLIC_CONSULTATION_REPOSITORY_TOKEN } from "../interfaces/public-consultation-repository.interface";
+import UpdatePublicConsultationRequestDTO from "../dtos/request/update-public-consultation-request.dto";
 
 export default class UpdatePublicConsultationUseCase implements IUnaryUseCase<UpdatePublicConsultationRequestDTO> {
     

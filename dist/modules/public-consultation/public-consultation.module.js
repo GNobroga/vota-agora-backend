@@ -11,6 +11,17 @@ Object.defineProperty(exports, "default", {
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
 const _publicconsultationschema = /*#__PURE__*/ _interop_require_wildcard(require("./public-consultation.schema"));
+const _usecases = /*#__PURE__*/ _interop_require_default(require("./usecases"));
+const _authmodule = /*#__PURE__*/ _interop_require_default(require("../auth/auth.module"));
+const _publicconsultationrepositoryinterface = require("./interfaces/public-consultation-repository.interface");
+const _publicconsultationrepository = /*#__PURE__*/ _interop_require_default(require("./public-consultation.repository"));
+const _usermodule = /*#__PURE__*/ _interop_require_default(require("../users/user.module"));
+const _publicconsultationcontroller = /*#__PURE__*/ _interop_require_default(require("./public-consultation.controller"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
     var cacheBabelInterop = new WeakMap();
@@ -63,12 +74,24 @@ let PublicConsultationModule = class PublicConsultationModule {
 PublicConsultationModule = _ts_decorate([
     (0, _common.Module)({
         imports: [
+            _authmodule.default,
+            _usermodule.default,
             _mongoose.MongooseModule.forFeature([
                 {
                     name: _publicconsultationschema.default.name,
                     schema: _publicconsultationschema.PublicConsultationSchema
                 }
             ])
+        ],
+        controllers: [
+            _publicconsultationcontroller.default
+        ],
+        providers: [
+            ..._usecases.default,
+            {
+                provide: _publicconsultationrepositoryinterface.PUBLIC_CONSULTATION_REPOSITORY_TOKEN,
+                useClass: _publicconsultationrepository.default
+            }
         ]
     })
 ], PublicConsultationModule);

@@ -27,13 +27,19 @@ function _ts_param(paramIndex, decorator) {
 let FindAllPublicConsultationUseCase = class FindAllPublicConsultationUseCase {
     async execute(input) {
         return (await this._publicConsultationRepository.findAll(input)).map((src)=>{
+            const owner = src.owner;
             return {
                 id: src['_id'],
                 title: src.title,
                 description: src.description,
                 initialDate: src.initialDate,
                 endDate: src.endDate,
-                imageUrl: src.imageUrl
+                imageUrl: src.imageUrl,
+                owner: {
+                    id: owner['_id'],
+                    fullName: owner.fullName,
+                    document: owner.document
+                }
             };
         });
     }

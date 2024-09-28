@@ -24,10 +24,14 @@ let RoleGuard = class RoleGuard {
     canActivate(context) {
         const request = context.switchToHttp().getRequest();
         const claimRoles = request['user']?.role ?? [];
-        const roles = this.reflector.getAllAndMerge(_allowrolesdecorator.ALLOW_ROLES_KEY, [
-            context.getHandler(),
-            context.getClass()
-        ]);
+        const classRoles = this.reflector.get(_allowrolesdecorator.ALLOW_ROLES_KEY, context.getClass()) ?? [];
+        const handlerRoles = this.reflector.get(_allowrolesdecorator.ALLOW_ROLES_KEY, context.getHandler()) ?? [];
+        const roles = [];
+        if (!handlerRoles.length) {
+            roles.push(...classRoles);
+        } else {
+            roles.push(...handlerRoles);
+        }
         return roles.some((role)=>claimRoles.includes(role));
     }
     constructor(reflector){

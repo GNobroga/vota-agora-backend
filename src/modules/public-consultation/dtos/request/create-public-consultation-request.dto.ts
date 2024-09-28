@@ -1,4 +1,5 @@
-import { IsDate, IsNotEmpty, IsString, IsUrl } from "class-validator";
+import { Type } from "class-transformer";
+import { IsDate, IsNotEmpty, IsOptional, IsString, IsUrl } from "class-validator";
 
 
 export default class CreatePublicConsultationRequestDTO {
@@ -11,13 +12,16 @@ export default class CreatePublicConsultationRequestDTO {
     @IsNotEmpty()
     description: string;
 
+    @Type(() => Date)
     @IsDate()
     @IsNotEmpty()
     initialDate: Date;
 
     @IsUrl()
+    @IsOptional()
     imageUrl: string;
 
+    @Type(() => Date)
     @IsDate()
     @IsNotEmpty()
     endDate: Date;

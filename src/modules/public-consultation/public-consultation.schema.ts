@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
+import { User } from '../users/user.schema';
 
 @Schema({ collection: 'public_consultation' })
 export default class PublicConsultation {
@@ -14,6 +16,9 @@ export default class PublicConsultation {
   @Prop()
   initialDate: Date;
 
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  owner: Types.ObjectId | User;
+
   @Prop()
   endDate: Date;
 
@@ -23,22 +28,34 @@ export default class PublicConsultation {
     this.initialDate = props?.initialDate ?? this.initialDate;
     this.endDate = props?.endDate ?? this.endDate;
     this.imageUrl = props?.imageUrl ?? this.imageUrl;
+    this.owner = props?.owner ?? this.owner;
   }
 
-  static create(title: string, description: string, initialDate: Date, endDate: Date) {
+  static create(
+    owner: Types.ObjectId,
+    title: string,
+    description: string,
+    initialDate: Date,
+    endDate: Date,
+  ) {
     return new PublicConsultation({
-        title,
-        description,
-        initialDate,
-        endDate
+      title,
+      description,
+      initialDate,
+      endDate,
+      owner,
     });
   }
 
-  static update(title: string, description: string, imageUrl: string = undefined) {
+  static update(
+    title: string,
+    description: string,
+    imageUrl: string = undefined,
+  ) {
     return new PublicConsultation({
-        title, 
-        description,
-        imageUrl
+      title,
+      description,
+      imageUrl,
     });
   }
 }

@@ -1,7 +1,9 @@
-import { IsNotEmpty, IsString, IsUrl, MaxLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
 
 export default class UpdatePublicConsultationRequestDTO {
     
+    @IsString()
+    @IsNotEmpty()
     id: string;
 
     @IsString()
@@ -14,5 +16,6 @@ export default class UpdatePublicConsultationRequestDTO {
     description: string;
 
     @IsUrl()
+    @IsOptional()
     imageUrl: string;
 }

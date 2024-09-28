@@ -36,7 +36,7 @@ let User = class User {
         this.fullName = props.fullName ?? this.fullName;
         this.document = props.document ?? this.document;
         this.password = props.password ?? this.password;
-        this.roles = props.roles ?? this.roles;
+        this.role = props.role ?? this.role;
     }
 };
 _ts_decorate([
@@ -61,8 +61,8 @@ _ts_decorate([
 ], User.prototype, "privateKey", void 0);
 _ts_decorate([
     (0, _mongoose.Prop)(),
-    _ts_metadata("design:type", Array)
-], User.prototype, "roles", void 0);
+    _ts_metadata("design:type", String)
+], User.prototype, "role", void 0);
 User = _ts_decorate([
     (0, _mongoose.Schema)(),
     _ts_metadata("design:type", Function),

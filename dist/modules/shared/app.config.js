@@ -20,14 +20,17 @@ function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 }
 let AppConfig = class AppConfig {
-    getBlockchainURL() {
+    get blockchainURL() {
         return this._configService.get('BLOCKCHAIN_URL');
     }
-    getDatabaseURL() {
+    get databaseURL() {
         return this._configService.get('DATABASE_URL');
     }
-    getApplicationPort() {
+    get port() {
         return this._configService.get('SERVER_PORT');
+    }
+    get jwtSecret() {
+        return this._configService.get('JWT_SECRET');
     }
     constructor(_configService){
         this._configService = _configService;

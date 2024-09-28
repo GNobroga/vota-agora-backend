@@ -4,6 +4,7 @@ import AdminModule from './modules/admin/admin.module';
 import AppConfig from './modules/shared/app.config';
 import SharedModule from './modules/shared/shared.module';
 import UserModule from './modules/users/user.module';
+import AuthModule from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -11,11 +12,11 @@ import UserModule from './modules/users/user.module';
     MongooseModule.forRootAsync({
       useFactory(appConfig: AppConfig) {
         return {
-          uri: appConfig.getDatabaseURL(),
+          uri: appConfig.databaseURL,
         }
       },
       inject: [AppConfig],
-      imports: [SharedModule, AdminModule, UserModule],
+      imports: [SharedModule, AdminModule, UserModule, AuthModule],
     }),
   ],
   controllers: [],

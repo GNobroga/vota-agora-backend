@@ -24,13 +24,13 @@ export class User {
     privateKey: string;
 
     @Prop()
-    roles: string[];
+    role: string;
 
     constructor(props: Partial<User>) {
         this.fullName = props.fullName ?? this.fullName;
         this.document = props.document ?? this.document;
         this.password = props.password ?? this.password;
-        this.roles = props.roles ?? this.roles;
+        this.role = props.role ?? this.role;
     }
 }
 

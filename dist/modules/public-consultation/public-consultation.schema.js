@@ -27,6 +27,28 @@ function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 }
 let PublicConsultation = class PublicConsultation {
+    static create(title, description, initialDate, endDate) {
+        return new PublicConsultation({
+            title,
+            description,
+            initialDate,
+            endDate
+        });
+    }
+    static update(title, description, imageUrl = undefined) {
+        return new PublicConsultation({
+            title,
+            description,
+            imageUrl
+        });
+    }
+    constructor(props){
+        this.title = props?.title ?? this.title;
+        this.description = props?.description ?? this.description;
+        this.initialDate = props?.initialDate ?? this.initialDate;
+        this.endDate = props?.endDate ?? this.endDate;
+        this.imageUrl = props?.imageUrl ?? this.imageUrl;
+    }
 };
 _ts_decorate([
     (0, _mongoose.Prop)(),
@@ -38,6 +60,10 @@ _ts_decorate([
 ], PublicConsultation.prototype, "description", void 0);
 _ts_decorate([
     (0, _mongoose.Prop)(),
+    _ts_metadata("design:type", String)
+], PublicConsultation.prototype, "imageUrl", void 0);
+_ts_decorate([
+    (0, _mongoose.Prop)(),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], PublicConsultation.prototype, "initialDate", void 0);
 _ts_decorate([
@@ -47,7 +73,11 @@ _ts_decorate([
 PublicConsultation = _ts_decorate([
     (0, _mongoose.Schema)({
         collection: 'public_consultation'
-    })
+    }),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof Partial === "undefined" ? Object : Partial
+    ])
 ], PublicConsultation);
 const PublicConsultationSchema = _mongoose.SchemaFactory.createForClass(PublicConsultation);
 

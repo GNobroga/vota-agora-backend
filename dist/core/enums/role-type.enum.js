@@ -10,8 +10,8 @@ Object.defineProperty(exports, "RoleType", {
 });
 var RoleType;
 (function(RoleType) {
-    RoleType["ADMIN"] = "admin";
-    RoleType["USER"] = "user";
+    RoleType["ADMIN"] = "ROLE_ADMIN";
+    RoleType["USER"] = "ROLE_USER";
 })(RoleType || (RoleType = {}));
 
 //# sourceMappingURL=role-type.enum.js.map

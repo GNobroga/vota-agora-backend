@@ -2,17 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
-    });
-}
-_export(exports, {
-    USER_REPOSITORY_TOKEN: function() {
-        return USER_REPOSITORY_TOKEN;
-    },
-    default: function() {
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
         return UserRepository;
     }
 });
@@ -34,7 +26,6 @@ function _ts_param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
-const USER_REPOSITORY_TOKEN = 'IUserRepository';
 let UserRepository = class UserRepository {
     async findAll(paginator) {
         const skip = (paginator.page - 1) * paginator.size;

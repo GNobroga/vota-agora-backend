@@ -2,17 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
-    });
-}
-_export(exports, {
-    BLOCKCHAIN_SERVICE_TOKEN: function() {
-        return BLOCKCHAIN_SERVICE_TOKEN;
-    },
-    default: function() {
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
         return BlockchainTokenService;
     }
 });
@@ -21,7 +13,7 @@ const _contractoutputconfig = /*#__PURE__*/ _interop_require_default(require("..
 const _appconfig = /*#__PURE__*/ _interop_require_default(require("../../shared/app.config"));
 const _web3 = /*#__PURE__*/ _interop_require_default(require("web3"));
 const _walletcreateddto = /*#__PURE__*/ _interop_require_default(require("../dtos/wallet-created.dto"));
-const _blockchaintokenrepository = require("../repositories/blockchain-token.repository");
+const _blockchaintokenrepositoryinterface = require("../interfaces/blockchain-token-repository.interface");
 const _blockchaintokenschema = require("../schemas/blockchain-token.schema");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
@@ -42,7 +34,6 @@ function _ts_param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
-const BLOCKCHAIN_SERVICE_TOKEN = 'IBlockchainTokenService';
 let BlockchainTokenService = class BlockchainTokenService {
     get web3() {
         return this._web3;
@@ -68,7 +59,7 @@ let BlockchainTokenService = class BlockchainTokenService {
     }
     async onModuleInit() {
         try {
-            const blockChainUrl = this._appConfig.getBlockchainURL();
+            const blockChainUrl = this._appConfig.blockchainURL;
             this._web3 = new _web3.default(new _web3.default.providers.HttpProvider(blockChainUrl));
             const { abi, evm } = _contractoutputconfig.default;
             const tokenAddressRecovered = await this._blockchainTokenRepository.findFirst();
@@ -121,10 +112,10 @@ let BlockchainTokenService = class BlockchainTokenService {
 };
 BlockchainTokenService = _ts_decorate([
     (0, _common.Injectable)(),
-    _ts_param(0, (0, _common.Inject)(_blockchaintokenrepository.BLOCKCHAIN_REPOSITORY_TOKEN)),
+    _ts_param(0, (0, _common.Inject)(_blockchaintokenrepositoryinterface.BLOCKCHAIN_REPOSITORY_TOKEN)),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _blockchaintokenrepository.IBlockchainTokenRepository === "undefined" ? Object : _blockchaintokenrepository.IBlockchainTokenRepository,
+        typeof _blockchaintokenrepositoryinterface.IBlockchainTokenRepository === "undefined" ? Object : _blockchaintokenrepositoryinterface.IBlockchainTokenRepository,
         typeof _appconfig.default === "undefined" ? Object : _appconfig.default
     ])
 ], BlockchainTokenService);

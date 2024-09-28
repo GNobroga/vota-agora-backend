@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import AdminModule from '../admin/admin.module';
 import userUsecases from './usecases';
 import UserController from './user.controller';
-import UserRepository, { USER_REPOSITORY_TOKEN } from './user.repository';
+import UserRepository from './user.repository';
 import { User, UserSchema } from './user.schema';
-import AdminModule from '../admin/admin.module';
+import { USER_REPOSITORY_TOKEN } from './interfaces/user-repository.interface';
 
 @Module({
   controllers: [UserController],
@@ -19,5 +20,8 @@ import AdminModule from '../admin/admin.module';
       useClass: UserRepository,
     },
   ],
+  exports: [
+    USER_REPOSITORY_TOKEN
+  ]
 })
 export default class UserModule {}

@@ -15,6 +15,10 @@ const _userschema = require("./user.schema");
 const _paginatordecorator = require("../../core/decorators/paginator.decorator");
 const _Paginator = /*#__PURE__*/ _interop_require_default(require("../../core/models/Paginator"));
 const _findallusersusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/find-all-users.usecase"));
+const _authguard = /*#__PURE__*/ _interop_require_default(require("../auth/guards/auth.guard"));
+const _roleguard = /*#__PURE__*/ _interop_require_default(require("../auth/guards/role.guard"));
+const _allowrolesdecorator = require("../auth/decorators/allow-roles.decorator");
+const _roletypeenum = require("../../core/enums/role-type.enum");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -47,6 +51,8 @@ let UserController = class UserController {
     }
 };
 _ts_decorate([
+    (0, _common.UseGuards)(_authguard.default, _roleguard.default),
+    (0, _allowrolesdecorator.AllowRoles)(_roletypeenum.RoleType.ADMIN),
     (0, _common.Get)(),
     _ts_param(0, (0, _paginatordecorator.PaginatorDecorator)()),
     _ts_metadata("design:type", Function),

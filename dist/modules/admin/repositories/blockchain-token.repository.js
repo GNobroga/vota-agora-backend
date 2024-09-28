@@ -2,17 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
-    });
-}
-_export(exports, {
-    BLOCKCHAIN_REPOSITORY_TOKEN: function() {
-        return BLOCKCHAIN_REPOSITORY_TOKEN;
-    },
-    default: function() {
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
         return BlockchainTokenRepository;
     }
 });
@@ -34,7 +26,6 @@ function _ts_param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
-const BLOCKCHAIN_REPOSITORY_TOKEN = 'IBlockchainTokenRepository';
 let BlockchainTokenRepository = class BlockchainTokenRepository {
     async create(record) {
         return await (await this._tokenModel.create(record)).save();

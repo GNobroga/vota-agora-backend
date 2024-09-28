@@ -1,9 +1,11 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import SharedModule from "../shared/shared.module";
+import BlockchainTokenRepository from "./repositories/blockchain-token.repository";
 import { BlockchainToken, TokenAddressSchema } from "./schemas/blockchain-token.schema";
-import BlockchainTokenService, { BLOCKCHAIN_SERVICE_TOKEN } from "./services/blockchain-token.service";
-import BlockchainTokenRepository, { BLOCKCHAIN_REPOSITORY_TOKEN } from "./repositories/blockchain-token.repository";
+import BlockchainTokenService from "./services/blockchain-token.service";
+import { BLOCKCHAIN_SERVICE_TOKEN } from "./interfaces/blockchain-token-service.interface";
+import { BLOCKCHAIN_REPOSITORY_TOKEN } from "./interfaces/blockchain-token-repository.interface";
 
 @Module({
     imports: [

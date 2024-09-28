@@ -10,8 +10,8 @@ Object.defineProperty(exports, "default", {
 });
 const _common = require("@nestjs/common");
 const _userresponsedto = /*#__PURE__*/ _interop_require_default(require("../dtos/response/user-response.dto"));
-const _userrepository = require("../user.repository");
-const _blockchaintokenservice = require("../../admin/services/blockchain-token.service");
+const _userrepositoryinterface = require("../interfaces/user-repository.interface");
+const _blockchaintokenserviceinterface = require("../../admin/interfaces/blockchain-token-service.interface");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -56,12 +56,12 @@ let FindAllUsersUseCase = class FindAllUsersUseCase {
 };
 FindAllUsersUseCase = _ts_decorate([
     (0, _common.Injectable)(),
-    _ts_param(0, (0, _common.Inject)(_userrepository.USER_REPOSITORY_TOKEN)),
-    _ts_param(1, (0, _common.Inject)(_blockchaintokenservice.BLOCKCHAIN_SERVICE_TOKEN)),
+    _ts_param(0, (0, _common.Inject)(_userrepositoryinterface.USER_REPOSITORY_TOKEN)),
+    _ts_param(1, (0, _common.Inject)(_blockchaintokenserviceinterface.BLOCKCHAIN_SERVICE_TOKEN)),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _userrepository.IUserRepository === "undefined" ? Object : _userrepository.IUserRepository,
-        typeof _blockchaintokenservice.IBlockchainTokenService === "undefined" ? Object : _blockchaintokenservice.IBlockchainTokenService
+        typeof _userrepositoryinterface.IUserRepository === "undefined" ? Object : _userrepositoryinterface.IUserRepository,
+        typeof _blockchaintokenserviceinterface.IBlockchainTokenService === "undefined" ? Object : _blockchaintokenserviceinterface.IBlockchainTokenService
     ])
 ], FindAllUsersUseCase);
 

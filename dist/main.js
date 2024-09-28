@@ -12,7 +12,7 @@ function _interop_require_default(obj) {
 }
 async function bootstrap() {
     const app = await _core.NestFactory.create(_appmodule.AppModule);
-    const port = app.get(_appconfig.default).getApplicationPort();
+    const port = app.get(_appconfig.default).port;
     app.setGlobalPrefix("api");
     app.enableVersioning();
     await app.listen(port);

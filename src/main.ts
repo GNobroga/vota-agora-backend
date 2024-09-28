@@ -4,7 +4,7 @@ import AppConfig from './modules/shared/app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = app.get(AppConfig).getApplicationPort();
+  const port = app.get(AppConfig).port;
   app.setGlobalPrefix("api");
   app.enableVersioning();
   await app.listen(port);

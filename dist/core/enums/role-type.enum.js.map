@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../../src/core/enums/role-type.enum.ts"],"sourcesContent":["export enum RoleType {\r\n    ADMIN = \"admin\",\r\n    USER = \"user\"\r\n}"],"names":["RoleType"],"mappings":";;;;;;;;;;;UAAYA;;;GAAAA,aAAAA"}
+{"version":3,"sources":["../../../src/core/enums/role-type.enum.ts"],"sourcesContent":["export enum RoleType {\r\n    ADMIN = \"ROLE_ADMIN\",\r\n    USER = \"ROLE_USER\"\r\n}"],"names":["RoleType"],"mappings":";;;;;;;;;;;UAAYA;;;GAAAA,aAAAA"}

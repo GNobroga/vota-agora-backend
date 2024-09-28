@@ -50,7 +50,7 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
 
     async onModuleInit() {
         try {
-            const blockChainUrl = this._appConfig.getBlockchainURL();
+            const blockChainUrl = this._appConfig.blockchainURL;
             this._web3 = new Web3(new Web3.providers.HttpProvider(blockChainUrl));
             const { abi, evm } = contractOutputConfig as any;
 

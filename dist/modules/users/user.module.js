@@ -10,56 +10,16 @@ Object.defineProperty(exports, "default", {
 });
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
+const _adminmodule = /*#__PURE__*/ _interop_require_default(require("../admin/admin.module"));
 const _usecases = /*#__PURE__*/ _interop_require_default(require("./usecases"));
 const _usercontroller = /*#__PURE__*/ _interop_require_default(require("./user.controller"));
-const _userrepository = /*#__PURE__*/ _interop_require_wildcard(require("./user.repository"));
+const _userrepository = /*#__PURE__*/ _interop_require_default(require("./user.repository"));
 const _userschema = require("./user.schema");
-const _adminmodule = /*#__PURE__*/ _interop_require_default(require("../admin/admin.module"));
+const _userrepositoryinterface = require("./interfaces/user-repository.interface");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
-}
-function _getRequireWildcardCache(nodeInterop) {
-    if (typeof WeakMap !== "function") return null;
-    var cacheBabelInterop = new WeakMap();
-    var cacheNodeInterop = new WeakMap();
-    return (_getRequireWildcardCache = function(nodeInterop) {
-        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-    })(nodeInterop);
-}
-function _interop_require_wildcard(obj, nodeInterop) {
-    if (!nodeInterop && obj && obj.__esModule) {
-        return obj;
-    }
-    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
-        return {
-            default: obj
-        };
-    }
-    var cache = _getRequireWildcardCache(nodeInterop);
-    if (cache && cache.has(obj)) {
-        return cache.get(obj);
-    }
-    var newObj = {
-        __proto__: null
-    };
-    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var key in obj){
-        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-            if (desc && (desc.get || desc.set)) {
-                Object.defineProperty(newObj, key, desc);
-            } else {
-                newObj[key] = obj[key];
-            }
-        }
-    }
-    newObj.default = obj;
-    if (cache) {
-        cache.set(obj, newObj);
-    }
-    return newObj;
 }
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -86,9 +46,12 @@ UserModule = _ts_decorate([
         providers: [
             ..._usecases.default,
             {
-                provide: _userrepository.USER_REPOSITORY_TOKEN,
+                provide: _userrepositoryinterface.USER_REPOSITORY_TOKEN,
                 useClass: _userrepository.default
             }
+        ],
+        exports: [
+            _userrepositoryinterface.USER_REPOSITORY_TOKEN
         ]
     })
 ], UserModule);

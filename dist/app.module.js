@@ -14,6 +14,7 @@ const _adminmodule = /*#__PURE__*/ _interop_require_default(require("./modules/a
 const _appconfig = /*#__PURE__*/ _interop_require_default(require("./modules/shared/app.config"));
 const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("./modules/shared/shared.module"));
 const _usermodule = /*#__PURE__*/ _interop_require_default(require("./modules/users/user.module"));
+const _authmodule = /*#__PURE__*/ _interop_require_default(require("./modules/auth/auth.module"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -34,7 +35,7 @@ AppModule = _ts_decorate([
             _mongoose.MongooseModule.forRootAsync({
                 useFactory (appConfig) {
                     return {
-                        uri: appConfig.getDatabaseURL()
+                        uri: appConfig.databaseURL
                     };
                 },
                 inject: [
@@ -43,7 +44,8 @@ AppModule = _ts_decorate([
                 imports: [
                     _sharedmodule.default,
                     _adminmodule.default,
-                    _usermodule.default
+                    _usermodule.default,
+                    _authmodule.default
                 ]
             })
         ],

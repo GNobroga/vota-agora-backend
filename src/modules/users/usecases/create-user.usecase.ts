@@ -1,9 +1,11 @@
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
-import { IUserRepository, USER_REPOSITORY_TOKEN } from "../user.repository";
-import { User } from "../user.schema";
-import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/services/blockchain-token.service";
 import UserWithAccountTokenResponseDTO from "../dtos/response/user-with-account-token-response.dto";
+import { User } from "../user.schema";
+import { IUserRepository, USER_REPOSITORY_TOKEN } from "../interfaces/user-repository.interface";
+import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/interfaces/blockchain-token-service.interface";
+import { RoleType } from "src/core/enums/role-type.enum";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export default class CreateUserUseCase implements IDefaultUseCase<User, UserWithAccountTokenResponseDTO> {
@@ -25,9 +27,10 @@ export default class CreateUserUseCase implements IDefaultUseCase<User, UserWith
         const { tokenAddress, accountAddress, privateKey } = await this._blockchainTokenService.createAccount();
         input.accountAddress = accountAddress;
         input.privateKey = privateKey;
-   
+        input.password = await bcrypt.hash(input.password, 10);
+        input.role = RoleType.USER;
         input = await this._userRepository.create(input);
-
+        
         const response = new UserWithAccountTokenResponseDTO({
             id: input['_id'],
             fullName: input.fullName,

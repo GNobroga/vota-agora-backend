@@ -5,12 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
     enumerable: true,
     get: function() {
-        return AdminModule;
+        return AdminV1Module;
     }
 });
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
-const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("../shared/shared.module"));
+const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("../../shared/shared.module"));
 const _blockchaintokenschema = require("./schemas/blockchain-token.schema");
 const _blockchaintokenservice = /*#__PURE__*/ _interop_require_wildcard(require("./services/blockchain-token.service"));
 const _blockchaintokenrepository = /*#__PURE__*/ _interop_require_wildcard(require("./repositories/blockchain-token.repository"));
@@ -66,9 +66,9 @@ function _ts_decorate(decorators, target, key, desc) {
     else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
-let AdminModule = class AdminModule {
+let AdminV1Module = class AdminV1Module {
 };
-AdminModule = _ts_decorate([
+AdminV1Module = _ts_decorate([
     (0, _common.Module)({
         imports: [
             _mongoose.MongooseModule.forFeature([
@@ -94,6 +94,6 @@ AdminModule = _ts_decorate([
             _blockchaintokenrepository.BLOCKCHAIN_REPOSITORY_TOKEN
         ]
     })
-], AdminModule);
+], AdminV1Module);
 
-//# sourceMappingURL=admin.module.js.map
+//# sourceMappingURL=admin-v1.module.js.map

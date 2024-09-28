@@ -3,7 +3,7 @@ import Paginator from "src/core/models/Paginator";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
 import UserResponseDTO from "../dtos/response/user-response.dto";
 import { IUserRepository, USER_REPOSITORY_TOKEN } from "../user.repository";
-import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/services/blockchain-token.service";
+import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/v1/services/blockchain-token.service";
 
 @Injectable()
 export default class FindAllUsersUseCase implements IDefaultUseCase<Paginator, UserResponseDTO[]> {

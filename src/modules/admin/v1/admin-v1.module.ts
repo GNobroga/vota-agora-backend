@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import SharedModule from "../shared/shared.module";
+import SharedModule from "../../shared/shared.module";
 import { BlockchainToken, TokenAddressSchema } from "./schemas/blockchain-token.schema";
 import BlockchainTokenService, { BLOCKCHAIN_SERVICE_TOKEN } from "./services/blockchain-token.service";
 import BlockchainTokenRepository, { BLOCKCHAIN_REPOSITORY_TOKEN } from "./repositories/blockchain-token.repository";
@@ -28,4 +28,4 @@ import BlockchainTokenRepository, { BLOCKCHAIN_REPOSITORY_TOKEN } from "./reposi
     ]
 })
 
-export default class AdminModule {}
+export default class AdminV1Module {}

@@ -4,15 +4,15 @@ import CreateUserUseCase from "./usecases/create-user.usecase";
 import UserController from "./user.controller";
 import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema } from "./user.schema";
-import AdminModule from "src/modules/admin/admin.module";
 import FindAllUsersUseCase from "./usecases/find-all-users.usecase";
+import AdminV1Module from "src/modules/admin/v1/admin-v1.module";
 
 @Module({
     controllers: [
         UserController
     ],
     imports: [
-        AdminModule,
+        AdminV1Module,
         MongooseModule.forFeature(
             [
                 { name: User.name, schema: UserSchema, },
@@ -28,4 +28,4 @@ import FindAllUsersUseCase from "./usecases/find-all-users.usecase";
         }
     ],
 })
-export default class UserModule {}
+export default class UserV1Module {}

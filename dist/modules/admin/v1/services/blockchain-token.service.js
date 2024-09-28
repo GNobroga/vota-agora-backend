@@ -17,8 +17,8 @@ _export(exports, {
     }
 });
 const _common = require("@nestjs/common");
-const _contractoutputconfig = /*#__PURE__*/ _interop_require_default(require("../../../config/blockchain/contract-output.config"));
-const _appconfig = /*#__PURE__*/ _interop_require_default(require("../../shared/app.config"));
+const _contractoutputconfig = /*#__PURE__*/ _interop_require_default(require("../../../../config/blockchain/contract-output.config"));
+const _appconfig = /*#__PURE__*/ _interop_require_default(require("../../../shared/app.config"));
 const _web3 = /*#__PURE__*/ _interop_require_default(require("web3"));
 const _walletcreateddto = /*#__PURE__*/ _interop_require_default(require("../dtos/wallet-created.dto"));
 const _blockchaintokenrepository = require("../repositories/blockchain-token.repository");

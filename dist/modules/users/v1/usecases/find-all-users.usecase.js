@@ -11,7 +11,7 @@ Object.defineProperty(exports, "default", {
 const _common = require("@nestjs/common");
 const _userresponsedto = /*#__PURE__*/ _interop_require_default(require("../dtos/response/user-response.dto"));
 const _userrepository = require("../user.repository");
-const _blockchaintokenservice = require("../../../admin/services/blockchain-token.service");
+const _blockchaintokenservice = require("../../../admin/v1/services/blockchain-token.service");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj

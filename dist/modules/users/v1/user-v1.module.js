@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
     enumerable: true,
     get: function() {
-        return UserModule;
+        return UserV1Module;
     }
 });
 const _common = require("@nestjs/common");
@@ -14,8 +14,8 @@ const _createuserusecase = /*#__PURE__*/ _interop_require_default(require("./use
 const _usercontroller = /*#__PURE__*/ _interop_require_default(require("./user.controller"));
 const _mongoose = require("@nestjs/mongoose");
 const _userschema = require("./user.schema");
-const _adminmodule = /*#__PURE__*/ _interop_require_default(require("../../admin/admin.module"));
 const _findallusersusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/find-all-users.usecase"));
+const _adminv1module = /*#__PURE__*/ _interop_require_default(require("../../admin/v1/admin-v1.module"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -68,15 +68,15 @@ function _ts_decorate(decorators, target, key, desc) {
     else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
-let UserModule = class UserModule {
+let UserV1Module = class UserV1Module {
 };
-UserModule = _ts_decorate([
+UserV1Module = _ts_decorate([
     (0, _common.Module)({
         controllers: [
             _usercontroller.default
         ],
         imports: [
-            _adminmodule.default,
+            _adminv1module.default,
             _mongoose.MongooseModule.forFeature([
                 {
                     name: _userschema.User.name,
@@ -93,6 +93,6 @@ UserModule = _ts_decorate([
             }
         ]
     })
-], UserModule);
+], UserV1Module);
 
-//# sourceMappingURL=user.module.js.map
+//# sourceMappingURL=user-v1.module.js.map

@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
 import { IUserRepository, USER_REPOSITORY_TOKEN } from "../user.repository";
 import { User } from "../user.schema";
-import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/services/blockchain-token.service";
+import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/v1/services/blockchain-token.service";
 import UserWithAccountTokenResponseDTO from "../dtos/response/user-with-account-token-response.dto";
 
 @Injectable()

@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import moment from "moment";
 import IUnaryUseCase from "src/core/usecases/unary.usecase";
 import { IPublicConsultationRepository, PUBLIC_CONSULTATION_REPOSITORY_TOKEN } from "../interfaces/public-consultation-repository.interface";
-import PublicConsultation from "../public-consultation.schema";
+import PublicConsultation from "../schemas/public-consultation.schema";
 import { CreatePublicConsultationInput } from "./inputs/create-public-consultation.input";
 import { IUserRepository, USER_REPOSITORY_TOKEN } from "src/modules/users/interfaces/user-repository.interface";
 import { Types } from "mongoose";

@@ -10,6 +10,14 @@ Object.defineProperty(exports, "default", {
 });
 const _common = require("@nestjs/common");
 const _publicconsultationrepositoryinterface = require("../interfaces/public-consultation-repository.interface");
+const _mongoose = require("@nestjs/mongoose");
+const _publicconsultationvoteschema = /*#__PURE__*/ _interop_require_default(require("../schemas/public-consultation-vote.schema"));
+const _mongoose1 = require("mongoose");
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -26,7 +34,7 @@ function _ts_param(paramIndex, decorator) {
 }
 let FindAllPublicConsultationUseCase = class FindAllPublicConsultationUseCase {
     async execute(input) {
-        return (await this._publicConsultationRepository.findAll(input)).map((src)=>{
+        const result = (await this._publicConsultationRepository.findAll(input)).map(async (src)=>{
             const owner = src.owner;
             return {
                 id: src['_id'],
@@ -35,6 +43,7 @@ let FindAllPublicConsultationUseCase = class FindAllPublicConsultationUseCase {
                 initialDate: src.initialDate,
                 endDate: src.endDate,
                 imageUrl: src.imageUrl,
+                voted: await this.hasVoted(owner['_id'], src['_id']),
                 owner: {
                     id: owner['_id'],
                     fullName: owner.fullName,
@@ -42,17 +51,33 @@ let FindAllPublicConsultationUseCase = class FindAllPublicConsultationUseCase {
                 }
             };
         });
+        return await Promise.all(result);
     }
-    constructor(_publicConsultationRepository){
+    async hasVoted(userId, publicConsultationId) {
+        try {
+            const result = this._publicConsultationVoteModel.findOne({
+                publicConsultation: publicConsultationId,
+                user: userId
+            }).exec();
+            (await result).toObject();
+            return true;
+        } catch  {
+            return false;
+        }
+    }
+    constructor(_publicConsultationRepository, _publicConsultationVoteModel){
         this._publicConsultationRepository = _publicConsultationRepository;
+        this._publicConsultationVoteModel = _publicConsultationVoteModel;
     }
 };
 FindAllPublicConsultationUseCase = _ts_decorate([
     (0, _common.Injectable)(),
     _ts_param(0, (0, _common.Inject)(_publicconsultationrepositoryinterface.PUBLIC_CONSULTATION_REPOSITORY_TOKEN)),
+    _ts_param(1, (0, _mongoose.InjectModel)(_publicconsultationvoteschema.default.name)),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _publicconsultationrepositoryinterface.IPublicConsultationRepository === "undefined" ? Object : _publicconsultationrepositoryinterface.IPublicConsultationRepository
+        typeof _publicconsultationrepositoryinterface.IPublicConsultationRepository === "undefined" ? Object : _publicconsultationrepositoryinterface.IPublicConsultationRepository,
+        typeof _mongoose1.Model === "undefined" ? Object : _mongoose1.Model
     ])
 ], FindAllPublicConsultationUseCase);
 

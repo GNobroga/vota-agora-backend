@@ -1,6 +1,6 @@
 import Paginator from "src/core/models/Paginator";
 import { IPublicConsultationRepository } from "./interfaces/public-consultation-repository.interface";
-import PublicConsultation from "./public-consultation.schema";
+import PublicConsultation from "./schemas/public-consultation.schema";
 import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";

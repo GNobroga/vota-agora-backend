@@ -8,7 +8,7 @@ Object.defineProperty(exports, "default", {
         return PublicConsultationRepository;
     }
 });
-const _publicconsultationschema = /*#__PURE__*/ _interop_require_default(require("./public-consultation.schema"));
+const _publicconsultationschema = /*#__PURE__*/ _interop_require_default(require("./schemas/public-consultation.schema"));
 const _common = require("@nestjs/common");
 const _mongoose = require("mongoose");
 const _mongoose1 = require("@nestjs/mongoose");

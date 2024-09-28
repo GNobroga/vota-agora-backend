@@ -38,6 +38,18 @@ let BlockchainTokenService = class BlockchainTokenService {
     get web3() {
         return this._web3;
     }
+    async registerVote(address, publicConsultationId) {
+        try {
+            console.log(address);
+            await this.tokenContract.methods.castVote(publicConsultationId).send({
+                from: address
+            });
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
     async findBalanceByAccountAddress(accountAddress) {
         try {
             return await this.tokenContract.methods.balanceOf(accountAddress).call();

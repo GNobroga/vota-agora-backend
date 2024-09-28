@@ -13,6 +13,7 @@ export default class PublicConsultationResponseDTO {
     endDate: Date;
     imageUrl: string;
     owner: PublicConsultationOwner;
+    voted: boolean;
 
     constructor(props: Partial<PublicConsultationResponseDTO>) {
         Object.assign(this, { ...props });

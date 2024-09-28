@@ -23,6 +23,7 @@ const _authuserinterface = require("../auth/auth-user.interface");
 const _updatepublicconsultationrequestdto = /*#__PURE__*/ _interop_require_default(require("./dtos/request/update-public-consultation-request.dto"));
 const _updatepublicconsultationusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/update-public-consultation.usecase"));
 const _deletepublicconsultationbyidusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/delete-public-consultation-by-id.usecase"));
+const _registervotepublicconsultationusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/register-vote-public-consultation.usecase"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -59,11 +60,18 @@ let PublicConsultationController = class PublicConsultationController {
     async findAll(paginator) {
         return this._findAllPublicConsultationUsecase.execute(paginator);
     }
-    constructor(_createPublicConsultationUseCase, _findAllPublicConsultationUsecase, _updatePublicConsultationUseCase, _deletePublicConsultationUseCase){
+    async registerVote(publicConsultationId, authUser) {
+        return await this._registerVotePublicConsultationUseCase.execute({
+            publicConsultationId,
+            userDocument: authUser.document
+        });
+    }
+    constructor(_createPublicConsultationUseCase, _findAllPublicConsultationUsecase, _updatePublicConsultationUseCase, _deletePublicConsultationUseCase, _registerVotePublicConsultationUseCase){
         this._createPublicConsultationUseCase = _createPublicConsultationUseCase;
         this._findAllPublicConsultationUsecase = _findAllPublicConsultationUsecase;
         this._updatePublicConsultationUseCase = _updatePublicConsultationUseCase;
         this._deletePublicConsultationUseCase = _deletePublicConsultationUseCase;
+        this._registerVotePublicConsultationUseCase = _registerVotePublicConsultationUseCase;
     }
 };
 _ts_decorate([
@@ -93,7 +101,6 @@ _ts_decorate([
 ], PublicConsultationController.prototype, "update", null);
 _ts_decorate([
     (0, _common.Delete)(":id"),
-    (0, _allowrolesdecorator.AllowRoles)(_roletypeenum.RoleType.USER),
     (0, _common.HttpCode)(_common.HttpStatus.OK),
     _ts_param(0, (0, _common.Param)("id")),
     _ts_metadata("design:type", Function),
@@ -112,6 +119,18 @@ _ts_decorate([
     ]),
     _ts_metadata("design:returntype", Promise)
 ], PublicConsultationController.prototype, "findAll", null);
+_ts_decorate([
+    (0, _common.Get)("register-vote/:id"),
+    (0, _common.HttpCode)(_common.HttpStatus.OK),
+    _ts_param(0, (0, _common.Param)("id")),
+    _ts_param(1, (0, _authuserdecorator.AuthUser)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        String,
+        typeof _authuserinterface.IAuthUser === "undefined" ? Object : _authuserinterface.IAuthUser
+    ]),
+    _ts_metadata("design:returntype", Promise)
+], PublicConsultationController.prototype, "registerVote", null);
 PublicConsultationController = _ts_decorate([
     (0, _common.UseGuards)(_authguard.default, _roleguard.default),
     (0, _allowrolesdecorator.AllowRoles)(_roletypeenum.RoleType.USER, _roletypeenum.RoleType.ADMIN),
@@ -124,7 +143,8 @@ PublicConsultationController = _ts_decorate([
         typeof _createpublicconsultationusecase.default === "undefined" ? Object : _createpublicconsultationusecase.default,
         typeof _findallpublicconsultationusecase.default === "undefined" ? Object : _findallpublicconsultationusecase.default,
         typeof _updatepublicconsultationusecase.default === "undefined" ? Object : _updatepublicconsultationusecase.default,
-        typeof _deletepublicconsultationbyidusecase.default === "undefined" ? Object : _deletepublicconsultationbyidusecase.default
+        typeof _deletepublicconsultationbyidusecase.default === "undefined" ? Object : _deletepublicconsultationbyidusecase.default,
+        typeof _registervotepublicconsultationusecase.default === "undefined" ? Object : _registervotepublicconsultationusecase.default
     ])
 ], PublicConsultationController);
 

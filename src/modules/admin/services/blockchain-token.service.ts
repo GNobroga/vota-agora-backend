@@ -24,6 +24,19 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
         private readonly _appConfig: AppConfig) {}
 
 
+    async registerVote(address: string, publicConsultationId: string): Promise<boolean> {
+       try {
+        console.log(address)
+            await this.tokenContract.methods.castVote(publicConsultationId)
+                .send({ from: address });
+            return true;
+       } catch(error) {
+        console.log(error)
+            return false;
+       }
+    }
+
+
     async findBalanceByAccountAddress(accountAddress: string): Promise<bigint> {
        try {
          return await this.tokenContract.methods.balanceOf(accountAddress).call();

@@ -13,6 +13,7 @@ import { IAuthUser } from "../auth/auth-user.interface";
 import UpdatePublicConsultationRequestDTO from "./dtos/request/update-public-consultation-request.dto";
 import UpdatePublicConsultationUseCase from "./usecases/update-public-consultation.usecase";
 import DeletePublicConsultationUseCase from "./usecases/delete-public-consultation-by-id.usecase";
+import RegisterVotePublicConsultationUseCase from "./usecases/register-vote-public-consultation.usecase";
 
 
 @UseGuards(AuthGuard, RoleGuard)
@@ -24,7 +25,8 @@ export default class PublicConsultationController {
         private readonly _createPublicConsultationUseCase: CreatePublicConsultationUseCase,
         private readonly _findAllPublicConsultationUsecase: FindAllPublicConsultationUseCase,
         private readonly _updatePublicConsultationUseCase: UpdatePublicConsultationUseCase,
-        private readonly _deletePublicConsultationUseCase: DeletePublicConsultationUseCase
+        private readonly _deletePublicConsultationUseCase: DeletePublicConsultationUseCase,
+        private readonly _registerVotePublicConsultationUseCase: RegisterVotePublicConsultationUseCase
     ) {}
 
     @Post()
@@ -47,7 +49,6 @@ export default class PublicConsultationController {
     }
 
     @Delete(":id")
-    @AllowRoles(RoleType.USER)
     @HttpCode(HttpStatus.OK)
     async deleteById(@Param("id") identifier: string) {
         return await this._deletePublicConsultationUseCase.execute(identifier);
@@ -59,4 +60,12 @@ export default class PublicConsultationController {
         return this._findAllPublicConsultationUsecase.execute(paginator);
     }
 
+    @Get("register-vote/:id")
+    @HttpCode(HttpStatus.OK)
+    async registerVote(@Param("id") publicConsultationId: string, @AuthUser() authUser: IAuthUser) {
+        return await this._registerVotePublicConsultationUseCase.execute({
+            publicConsultationId,
+            userDocument: authUser.document,
+        });
+    }
 }

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { User } from '../users/user.schema';
+import { User } from '../../users/user.schema';
 
 @Schema({ collection: 'public_consultation' })
 export default class PublicConsultation {
@@ -16,7 +16,7 @@ export default class PublicConsultation {
   @Prop()
   initialDate: Date;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop({ type: Types.ObjectId, ref: User.name })
   owner: Types.ObjectId | User;
 
   @Prop()

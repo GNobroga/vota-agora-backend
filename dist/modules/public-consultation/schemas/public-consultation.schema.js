@@ -18,6 +18,7 @@ _export(exports, {
 });
 const _mongoose = require("@nestjs/mongoose");
 const _mongoose1 = require("mongoose");
+const _userschema = require("../../users/user.schema");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -72,7 +73,7 @@ _ts_decorate([
 _ts_decorate([
     (0, _mongoose.Prop)({
         type: _mongoose1.Types.ObjectId,
-        ref: 'User'
+        ref: _userschema.User.name
     }),
     _ts_metadata("design:type", Object)
 ], PublicConsultation.prototype, "owner", void 0);

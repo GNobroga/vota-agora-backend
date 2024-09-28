@@ -11,7 +11,7 @@ Object.defineProperty(exports, "default", {
 const _common = require("@nestjs/common");
 const _moment = /*#__PURE__*/ _interop_require_default(require("moment"));
 const _publicconsultationrepositoryinterface = require("../interfaces/public-consultation-repository.interface");
-const _publicconsultationschema = /*#__PURE__*/ _interop_require_default(require("../public-consultation.schema"));
+const _publicconsultationschema = /*#__PURE__*/ _interop_require_default(require("../schemas/public-consultation.schema"));
 const _userrepositoryinterface = require("../../users/interfaces/user-repository.interface");
 const _mongoose = require("mongoose");
 function _interop_require_default(obj) {

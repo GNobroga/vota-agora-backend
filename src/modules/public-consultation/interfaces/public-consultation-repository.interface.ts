@@ -1,5 +1,5 @@
 import Paginator from "src/core/models/Paginator";
-import PublicConsultation from "../public-consultation.schema";
+import PublicConsultation from "../schemas/public-consultation.schema";
 
 export const PUBLIC_CONSULTATION_REPOSITORY_TOKEN = 'IPublicConsultationRepository';
 

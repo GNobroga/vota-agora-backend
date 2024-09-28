@@ -10,13 +10,15 @@ Object.defineProperty(exports, "default", {
 });
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
-const _publicconsultationschema = /*#__PURE__*/ _interop_require_wildcard(require("./public-consultation.schema"));
+const _publicconsultationschema = /*#__PURE__*/ _interop_require_wildcard(require("./schemas/public-consultation.schema"));
 const _usecases = /*#__PURE__*/ _interop_require_default(require("./usecases"));
 const _authmodule = /*#__PURE__*/ _interop_require_default(require("../auth/auth.module"));
 const _publicconsultationrepositoryinterface = require("./interfaces/public-consultation-repository.interface");
 const _publicconsultationrepository = /*#__PURE__*/ _interop_require_default(require("./public-consultation.repository"));
 const _usermodule = /*#__PURE__*/ _interop_require_default(require("../users/user.module"));
 const _publicconsultationcontroller = /*#__PURE__*/ _interop_require_default(require("./public-consultation.controller"));
+const _publicconsultationvoteschema = /*#__PURE__*/ _interop_require_wildcard(require("./schemas/public-consultation-vote.schema"));
+const _adminmodule = /*#__PURE__*/ _interop_require_default(require("../admin/admin.module"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -76,10 +78,15 @@ PublicConsultationModule = _ts_decorate([
         imports: [
             _authmodule.default,
             _usermodule.default,
+            _adminmodule.default,
             _mongoose.MongooseModule.forFeature([
                 {
                     name: _publicconsultationschema.default.name,
                     schema: _publicconsultationschema.PublicConsultationSchema
+                },
+                {
+                    name: _publicconsultationvoteschema.default.name,
+                    schema: _publicconsultationvoteschema.PublicConsultationVoteSchema
                 }
             ])
         ],

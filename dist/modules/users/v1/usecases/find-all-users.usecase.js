@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
     enumerable: true,
     get: function() {
-        return UserService;
+        return FindAllUsersUseCase;
     }
 });
 const _common = require("@nestjs/common");
@@ -15,10 +15,10 @@ function _ts_decorate(decorators, target, key, desc) {
     else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
-let UserService = class UserService {
+let FindAllUsersUseCase = class FindAllUsersUseCase {
 };
-UserService = _ts_decorate([
+FindAllUsersUseCase = _ts_decorate([
     (0, _common.Injectable)()
-], UserService);
+], FindAllUsersUseCase);
 
-//# sourceMappingURL=user.service.js.map
+//# sourceMappingURL=find-all-users.usecase.js.map

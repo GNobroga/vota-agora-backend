@@ -1,3 +1,3 @@
-export interface IRepository<T> {
-    create(record: T): T | Promise<T>;
+export interface IRepository<Type> {
+    create(record: Type): Type | Promise<Type>;
 }

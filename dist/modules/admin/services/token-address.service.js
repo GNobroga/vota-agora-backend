@@ -44,7 +44,6 @@ let TokenAddressService = class TokenAddressService {
         const { abi, evm } = _contractoutputconfig.default;
         const tokenAddressRecovered = (await this._tokenModel.findOne())?.toObject();
         if (tokenAddressRecovered?.tokenAddress && await this.checkToken(abi, tokenAddressRecovered.tokenAddress)) {
-            console.log('aqui2');
             return;
         }
         await this._tokenModel.deleteMany();
@@ -53,7 +52,6 @@ let TokenAddressService = class TokenAddressService {
         if (!accounts.length) return;
         const account = accounts[0];
         const INITIAL_SUPPLY = 1000000000000000000000000n;
-        console.log("OIIII");
         const result = await new this._web3.eth.Contract(abi).deploy({
             data: evm.bytecode.object,
             arguments: [

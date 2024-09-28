@@ -18,11 +18,7 @@ const CONTRACT = `
 
         mapping(address => uint256) private _balances;
 
-        mapping(string => address[]) private _publicConsultation;
-
         mapping(string => mapping(address => bool)) private _hasVoted;
-
-        event Voted(string consultationId, address voter);
 
         constructor(uint256 initialSupply) {
             _mint(msg.sender, initialSupply);
@@ -42,23 +38,14 @@ const CONTRACT = `
         }
 
 
-        function castVote(string memory publicConsultationId_) public returns (bool) {
+       function castVote(string memory publicConsultationId_) public returns (bool) {
             require(!_hasVoted[publicConsultationId_][msg.sender], "Voce ja votou nesta consulta");
-
-    
-            _publicConsultation[publicConsultationId_].push(msg.sender);
             
-    
             _hasVoted[publicConsultationId_][msg.sender] = true;
-
-            emit Voted(publicConsultationId_, msg.sender);
-            
+    
             return true;
         }
 
-        function hasVoted(string memory publicConsultationId_, address voter) public view returns (bool) {
-            return _hasVoted[publicConsultationId_][voter];
-        }
 
         function name() public view returns(string memory) {
             return _name;

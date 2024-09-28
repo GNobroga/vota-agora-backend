@@ -26,12 +26,10 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
 
     async registerVote(address: string, publicConsultationId: string): Promise<boolean> {
        try {
-        console.log(address)
             await this.tokenContract.methods.castVote(publicConsultationId)
                 .send({ from: address });
             return true;
        } catch(error) {
-        console.log(error)
             return false;
        }
     }
@@ -88,8 +86,8 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
             .deploy({ data: evm.bytecode.object, arguments: [INITIAL_SUPPLY] })
             .send({
                 from: account,
-                gas: '1500000',
-                gasPrice: '30000000000',
+                gas: '6721975',
+                gasPrice: '875000000',
             });
 
             const blockchainToken = new BlockchainToken({

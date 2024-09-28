@@ -92,8 +92,8 @@ let BlockchainTokenService = class BlockchainTokenService {
                 ]
             }).send({
                 from: account,
-                gas: '1500000',
-                gasPrice: '30000000000'
+                gas: '6721975',
+                gasPrice: '875000000'
             });
             const blockchainToken = new _blockchaintokenschema.BlockchainToken({
                 tokenAddress: result.options.address,

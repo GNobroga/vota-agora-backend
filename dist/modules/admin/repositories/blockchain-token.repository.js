@@ -9,17 +9,17 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    USER_REPOSITORY_TOKEN: function() {
-        return USER_REPOSITORY_TOKEN;
+    BLOCKCHAIN_REPOSITORY_TOKEN: function() {
+        return BLOCKCHAIN_REPOSITORY_TOKEN;
     },
     default: function() {
-        return UserRepository;
+        return BlockchainTokenRepository;
     }
 });
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
 const _mongoose1 = require("mongoose");
-const _userschema = require("./user.schema");
+const _blockchaintokenschema = require("../schemas/blockchain-token.schema");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -34,40 +34,34 @@ function _ts_param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
-const USER_REPOSITORY_TOKEN = 'IUserRepository';
-let UserRepository = class UserRepository {
-    async findAll(paginator) {
-        const skip = (paginator.page - 1) * paginator.size;
-        const users = await this._userModel.find().sort({
-            '_id': paginator.sort === 'desc' ? -1 : 1
-        }).skip(skip).limit(paginator.size).exec();
-        return users;
+const BLOCKCHAIN_REPOSITORY_TOKEN = 'IBlockchainTokenRepository';
+let BlockchainTokenRepository = class BlockchainTokenRepository {
+    async create(record) {
+        return await (await this._tokenModel.create(record)).save();
     }
-    async findByDocument(document) {
+    async deleteAll() {
+        await this._tokenModel.deleteMany();
+        return true;
+    }
+    async findFirst() {
         try {
-            const result = await this._userModel.findOne({
-                document
-            });
-            return result.toObject();
+            const tokenAddress = (await this._tokenModel.findOne()).toObject();
+            return tokenAddress;
         } catch (error) {
             return null;
         }
     }
-    async create(record) {
-        const createdUser = await this._userModel.create(record);
-        return await createdUser.save();
-    }
-    constructor(_userModel){
-        this._userModel = _userModel;
+    constructor(_tokenModel){
+        this._tokenModel = _tokenModel;
     }
 };
-UserRepository = _ts_decorate([
+BlockchainTokenRepository = _ts_decorate([
     (0, _common.Injectable)(),
-    _ts_param(0, (0, _mongoose.InjectModel)(_userschema.User.name)),
+    _ts_param(0, (0, _mongoose.InjectModel)(_blockchaintokenschema.BlockchainToken.name)),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof _mongoose1.Model === "undefined" ? Object : _mongoose1.Model
     ])
-], UserRepository);
+], BlockchainTokenRepository);
 
-//# sourceMappingURL=user.repository.js.map
+//# sourceMappingURL=blockchain-token.repository.js.map

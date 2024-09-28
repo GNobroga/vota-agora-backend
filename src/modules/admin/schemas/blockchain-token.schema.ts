@@ -1,17 +1,17 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-@Schema({ collection: 'token_addresses'})
-export class TokenAddress {
+@Schema({ collection: 'blockchain_token'})
+export class BlockchainToken {
     @Prop()
     tokenAddress: string;
 
     @Prop()
     accountAddress: string;
 
-    constructor(props: Partial<TokenAddress>) {
+    constructor(props: Partial<BlockchainToken>) {
         this.tokenAddress = props.tokenAddress ?? this.tokenAddress;
         this.accountAddress = props.accountAddress ?? this.accountAddress;
     }
 }
 
-export const TokenAddressSchema = SchemaFactory.createForClass(TokenAddress);
+export const TokenAddressSchema = SchemaFactory.createForClass(BlockchainToken);

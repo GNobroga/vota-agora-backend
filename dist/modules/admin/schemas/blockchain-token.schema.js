@@ -9,8 +9,8 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    TokenAddress: function() {
-        return TokenAddress;
+    BlockchainToken: function() {
+        return BlockchainToken;
     },
     TokenAddressSchema: function() {
         return TokenAddressSchema;
@@ -26,7 +26,7 @@ function _ts_decorate(decorators, target, key, desc) {
 function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 }
-let TokenAddress = class TokenAddress {
+let BlockchainToken = class BlockchainToken {
     constructor(props){
         this.tokenAddress = props.tokenAddress ?? this.tokenAddress;
         this.accountAddress = props.accountAddress ?? this.accountAddress;
@@ -35,20 +35,20 @@ let TokenAddress = class TokenAddress {
 _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", String)
-], TokenAddress.prototype, "tokenAddress", void 0);
+], BlockchainToken.prototype, "tokenAddress", void 0);
 _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", String)
-], TokenAddress.prototype, "accountAddress", void 0);
-TokenAddress = _ts_decorate([
+], BlockchainToken.prototype, "accountAddress", void 0);
+BlockchainToken = _ts_decorate([
     (0, _mongoose.Schema)({
-        collection: 'token_addresses'
+        collection: 'blockchain_token'
     }),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof Partial === "undefined" ? Object : Partial
     ])
-], TokenAddress);
-const TokenAddressSchema = _mongoose.SchemaFactory.createForClass(TokenAddress);
+], BlockchainToken);
+const TokenAddressSchema = _mongoose.SchemaFactory.createForClass(BlockchainToken);
 
-//# sourceMappingURL=token-address.schema.js.map
+//# sourceMappingURL=blockchain-token.schema.js.map

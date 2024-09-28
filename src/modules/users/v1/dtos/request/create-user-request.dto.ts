@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString } from "class-validator";
+import { IsCpf } from "src/modules/shared/validators/cpf.validator";
 
 export default class CreateUserRequestDTO {
     @IsString()
@@ -7,6 +8,7 @@ export default class CreateUserRequestDTO {
 
     @IsString()
     @IsNotEmpty()
+    @IsCpf()
     document: string;
 
     @IsString()

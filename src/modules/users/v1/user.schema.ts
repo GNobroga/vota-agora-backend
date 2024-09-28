@@ -18,7 +18,10 @@ export class User {
     password: string;
 
     @Prop()
-    walletAddress: string;
+    accountAddress: string;
+
+    @Prop()
+    privateKey: string;
 
     @Prop()
     roles: string[];
@@ -27,7 +30,6 @@ export class User {
         this.fullName = props.fullName ?? this.fullName;
         this.document = props.document ?? this.document;
         this.password = props.password ?? this.password;
-        this.walletAddress = props.walletAddress ?? this.walletAddress;
         this.roles = props.roles ?? this.roles;
     }
 }

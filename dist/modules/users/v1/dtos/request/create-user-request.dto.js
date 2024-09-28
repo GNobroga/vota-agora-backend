@@ -9,6 +9,7 @@ Object.defineProperty(exports, "default", {
     }
 });
 const _classvalidator = require("class-validator");
+const _cpfvalidator = require("../../../../shared/validators/cpf.validator");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -28,6 +29,7 @@ _ts_decorate([
 _ts_decorate([
     (0, _classvalidator.IsString)(),
     (0, _classvalidator.IsNotEmpty)(),
+    (0, _cpfvalidator.IsCpf)(),
     _ts_metadata("design:type", String)
 ], CreateUserRequestDTO.prototype, "document", void 0);
 _ts_decorate([

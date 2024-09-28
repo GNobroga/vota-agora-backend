@@ -10,8 +10,11 @@ Object.defineProperty(exports, "default", {
 });
 const _common = require("@nestjs/common");
 const _createuserrequestdto = /*#__PURE__*/ _interop_require_default(require("./dtos/request/create-user-request.dto"));
-const _userrepository = /*#__PURE__*/ _interop_require_default(require("./user.repository"));
+const _createuserusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/create-user.usecase"));
 const _userschema = require("./user.schema");
+const _paginatordecorator = require("../../../core/decorators/paginator.decorator");
+const _Paginator = /*#__PURE__*/ _interop_require_default(require("../../../core/models/Paginator"));
+const _findallusersusecase = /*#__PURE__*/ _interop_require_default(require("./usecases/find-all-users.usecase"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -32,28 +35,46 @@ function _ts_param(paramIndex, decorator) {
     };
 }
 let UserController = class UserController {
-    create(request) {
-        this._userRepository.create(new _userschema.User(request));
+    async findAll(paginator) {
+        return this._findAllUsersUseCase.execute(paginator);
     }
-    constructor(_userRepository){
-        this._userRepository = _userRepository;
+    async create(request) {
+        return await this._createUserUseCase.execute(new _userschema.User(request));
+    }
+    constructor(_createUserUseCase, _findAllUsersUseCase){
+        this._createUserUseCase = _createUserUseCase;
+        this._findAllUsersUseCase = _findAllUsersUseCase;
     }
 };
 _ts_decorate([
+    (0, _common.Get)(),
+    _ts_param(0, (0, _paginatordecorator.PaginatorDecorator)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _Paginator.default === "undefined" ? Object : _Paginator.default
+    ]),
+    _ts_metadata("design:returntype", Promise)
+], UserController.prototype, "findAll", null);
+_ts_decorate([
+    (0, _common.UsePipes)(_common.ValidationPipe),
+    (0, _common.HttpCode)(_common.HttpStatus.CREATED),
+    (0, _common.Post)(),
     _ts_param(0, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof _createuserrequestdto.default === "undefined" ? Object : _createuserrequestdto.default
     ]),
-    _ts_metadata("design:returntype", void 0)
+    _ts_metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
 UserController = _ts_decorate([
     (0, _common.Controller)({
+        path: 'users',
         version: '1'
     }),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _userrepository.default === "undefined" ? Object : _userrepository.default
+        typeof _createuserusecase.default === "undefined" ? Object : _createuserusecase.default,
+        typeof _findallusersusecase.default === "undefined" ? Object : _findallusersusecase.default
     ])
 ], UserController);
 

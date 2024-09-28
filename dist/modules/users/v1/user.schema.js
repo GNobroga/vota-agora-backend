@@ -36,7 +36,6 @@ let User = class User {
         this.fullName = props.fullName ?? this.fullName;
         this.document = props.document ?? this.document;
         this.password = props.password ?? this.password;
-        this.walletAddress = props.walletAddress ?? this.walletAddress;
         this.roles = props.roles ?? this.roles;
     }
 };
@@ -55,7 +54,11 @@ _ts_decorate([
 _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", String)
-], User.prototype, "walletAddress", void 0);
+], User.prototype, "accountAddress", void 0);
+_ts_decorate([
+    (0, _mongoose.Prop)(),
+    _ts_metadata("design:type", String)
+], User.prototype, "privateKey", void 0);
 _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", Array)

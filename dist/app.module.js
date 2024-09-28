@@ -13,6 +13,7 @@ const _mongoose = require("@nestjs/mongoose");
 const _adminmodule = /*#__PURE__*/ _interop_require_default(require("./modules/admin/admin.module"));
 const _appconfig = /*#__PURE__*/ _interop_require_default(require("./modules/shared/app.config"));
 const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("./modules/shared/shared.module"));
+const _usermodule = /*#__PURE__*/ _interop_require_default(require("./modules/users/v1/user.module"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -41,7 +42,8 @@ AppModule = _ts_decorate([
                 ],
                 imports: [
                     _sharedmodule.default,
-                    _adminmodule.default
+                    _adminmodule.default,
+                    _usermodule.default
                 ]
             })
         ],

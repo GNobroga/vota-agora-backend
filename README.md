@@ -1,5 +1,12 @@
 # Vota Agora - (Em construção)
 
+## Objetivo da Aplicação:
+
+O objetivo desta aplicação é desenvolver um sistema que utilize a blockchain para garantir a integridade e a consistência de uma votação em uma consulta pública realizada por um usuário. Consultas públicas são entidades que representam ideias que serão debatidas por um determinado indivíduo.
+
+O fluxo da aplicação funcionará da seguinte forma: ao se cadastrar, o usuário receberá 1000 **ETH** (pois existe um custo associado a cada votação que ele realizará). Ao participar de uma votação, o usuário receberá 10 **GLT**, um token criado pela nossa aplicação que representará algum tipo de recompensa.
+
+
 ## 🔗 API Endpoints
 
 ### Autenticação

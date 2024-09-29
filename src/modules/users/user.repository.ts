@@ -12,6 +12,14 @@ export default class UserRepository implements IUserRepository {
         @InjectModel(User.name) private _userModel: Model<User>
     ) {}
 
+    async findById(identifier: string): Promise<User | null> {
+        try {
+            return (await this._userModel.findById(identifier)).toObject();
+        } catch {
+            return null;
+        }
+    }
+
     async findAll(paginator: Paginator): Promise<User[]> {
         const skip = (paginator.page - 1) * paginator.size; 
         const users = await this._userModel.find()

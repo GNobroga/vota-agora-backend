@@ -7,4 +7,5 @@ export interface IUserRepository {
     create(record: User): Promise<User>;
     findByDocument(document: string): Promise<User | null>;
     findAll(paginator: Paginator): Promise<User[]>;
+    findById(identifier: string): Promise<User | null>;
 }

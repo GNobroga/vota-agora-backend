@@ -15,7 +15,7 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
         @Inject(PUBLIC_CONSULTATION_REPOSITORY_TOKEN)
         private readonly _publicConsultationRepository: IPublicConsultationRepository,
         @Inject(USER_REPOSITORY_TOKEN)
-        private readonly _userRepositoryToken: IUserRepository,
+        private readonly _userRepository: IUserRepository,
         @Inject(BLOCKCHAIN_SERVICE_TOKEN)
         private readonly _blockchainTokenService: IBlockchainTokenService,
         @InjectModel(PublicConsultationVote.name)
@@ -24,13 +24,14 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
 
 
     async execute(input: RegisterVotePublicConsultationInput) {
-        const user = await this._userRepositoryToken.findByDocument(input.userDocument);
+        const user = await this._userRepository.findByDocument(input.userDocument);
 
         if (!user) {
             throw new NotFoundException(`Usuário com documento ${input.userDocument} não foi encontrado.`);
         }
 
         const publicConsultation = await this._publicConsultationRepository.findById(input.publicConsultationId);
+        const publicConsultationOwner = await this._userRepository.findById(publicConsultation.owner.toString());
 
         // Se a consulta publica for do usuario em questão, ele não pode se auto votar.
         if (publicConsultation.owner.toString() == user['_id']) {
@@ -47,7 +48,10 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
             return false;
         }
 
-        await this._blockchainTokenService.transferReward(user.accountAddress);
+        await Promise.all([
+            this._blockchainTokenService.transferReward(user.accountAddress),
+            this._blockchainTokenService.transferReward(publicConsultationOwner.accountAddress)
+        ]);
         
         await this._publicConsultationVoteModel.create({
             publicConsultation: new Types.ObjectId(input.publicConsultationId),

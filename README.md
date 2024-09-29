@@ -32,115 +32,38 @@
 - Apenas usuários com **ROLE_ADMIN** podem ter acesso.
 
 
-🟡 **```POST```** ::  Criar estado
+🟡 **```POST```** ::  Permite criar um usuário
 
 ```
-/api/v1/states
-```
-
-```json
-{
-    "name": "Tocantins",
-    "abbreviation": "TO"
-}
-```
-
-🔵 **```PUT```** :: Atualizar estado
-
-```
-/api/v1/states/{id}
+/api/v1/users
 ```
 
 ```json
-{
-    "name": "Tocantins",
-    "abbreviation": "TO"
-}
+    {
+        "fullName": "Gabriel Cardoso",
+        "document": "YOUR_DOCUMENT",
+        "password": "YOUR_PASSWORD",
+        "confirmationPassword": "YOUR_PASSWORD",
+    }
 ```
 
-🔴 **```DELETE```** :: Deletar estado
+- Caso o **Document** já esteja em uso, não será possível utilizar.
 
-```
-/api/v1/states/{id}
-```
-
-🟢 **```GET```** :: Obter quantidade de estados registrados
-
-```
-/api/v1/states/count
-```
-
----
-
-### Cidades
-
-🟢 **```GET```** :: Obter todas as cidades
-
-```
-/api/v1/cities
-```
-
-- **```pageNumber```:** numéro da página (começa em zero)
-- **```pageSize```:** quantidade de itens por página
-
-🟡 **```POST```** ::  Criar cidade
-
-```
-/api/v1/cities
-```
 
 ```json
-{
-    "name": "Cachoeiro de Itapemirim",
-    "stateId": 8
-}
+    {
+        "id": "66f93d51bd40f083e9c99acd",
+        "fullName": "Gabriel C",
+        "document": "YOUR_DOCUMENT",
+        "tokenAddress": "0x9416175c512b71bfA3FeEB050D99C201528636d1",
+        "privateKey": "0xd9bf176496eabe7f367b7662294645a2946e13fa4e5efc77c18fe637011103ab"
+    }
 ```
 
-🔵 **```PUT```** :: Atualizar cidade
+- **privateKey** - Permite o usuário importa a chave no Metamask
+- **tokenAddress** - Permite o usuário importa o Reward Token no Metamask
+- O **Usuário** ao criar a conta ganhará **1000 Ether**.
 
-```
-/api/v1/cities/{id}
-```
-
-```json
-{
-    "name": "Cachoeiro de Itapemirim",
-    "stateId": 8
-}
-```
-
-🔴 **```DELETE```** :: Deletar cidade
-
-```
-/api/v1/cities/{id}
-```
-
-🟢 **```GET```** :: Obter cidades por estado
-
-```
-/api/v1/cities/state/{id}
-```
-
-- **```pageNumber```:** numéro da página (começa em zero)
-- **```pageSize```:** quantidade de itens por página
-
-🟢 **```GET```** :: Obter cidades por nome
-
-```
-/api/v1/cities/find-by-name/{name}
-```
-
-- **```pageNumber```:** numéro da página (começa em zero)
-- **```pageSize```:** quantidade de itens por página
-- O nome a ser pesquisado deve conter 3 ou mais caracteres
-
-🟢 **```GET```** :: Obter quantidade de cidades registradas
-
-```
-/api/v1/cities/count
-```
-
----
 
 
 ## Tecnologias

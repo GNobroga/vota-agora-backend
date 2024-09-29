@@ -41,6 +41,10 @@ let RegisterVotePublicConsultationUseCase = class RegisterVotePublicConsultation
             throw new _common.NotFoundException(`Usuário com documento ${input.userDocument} não foi encontrado.`);
         }
         const publicConsultation = await this._publicConsultationRepository.findById(input.publicConsultationId);
+        // Se a consulta publica for do usuario em questão, ele não pode se auto votar.
+        if (publicConsultation.owner.toString() == user['_id']) {
+            throw new _common.BadRequestException('Não é permitido o dono da consulta publica votar nela mesmo.');
+        }
         if (!publicConsultation) {
             throw new _common.NotFoundException(`Consulta pública com identificação ${input.publicConsultationId} não foi encontrada.`);
         }

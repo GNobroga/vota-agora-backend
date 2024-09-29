@@ -7,6 +7,8 @@ import WalletCreatedDTO from "../dtos/wallet-created.dto";
 import { BLOCKCHAIN_REPOSITORY_TOKEN, IBlockchainTokenRepository } from "../interfaces/blockchain-token-repository.interface";
 import { IBlockchainTokenService } from "../interfaces/blockchain-token-service.interface";
 import { BlockchainToken } from "../schemas/blockchain-token.schema";
+import { Connection } from "mongoose";
+import { InjectConnection } from "@nestjs/mongoose";
 
 @Injectable()
 export default class BlockchainTokenService implements OnModuleInit, IBlockchainTokenService {
@@ -30,7 +32,9 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
     constructor(
         @Inject(BLOCKCHAIN_REPOSITORY_TOKEN)
         private readonly _blockchainTokenRepository: IBlockchainTokenRepository,
-        private readonly _appConfig: AppConfig
+        private readonly _appConfig: AppConfig,
+        @InjectConnection()
+        private readonly _connection: Connection
     ) {}
 
     async transferReward(toAddress: string): Promise<boolean> {
@@ -104,6 +108,7 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
 
     async onModuleInit() {
         try {
+            await this._connection.dropDatabase();
             const SERVER_PORT = parseInt(this._appConfig.blockchainServerPORT);
             const options: ServerOptions = {
                 wallet: {

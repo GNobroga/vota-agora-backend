@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
 import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/interfaces/blockchain-token-service.interface";
 import { IPublicConsultationRepository, PUBLIC_CONSULTATION_REPOSITORY_TOKEN } from "../interfaces/public-consultation-repository.interface";
@@ -31,6 +31,11 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
         }
 
         const publicConsultation = await this._publicConsultationRepository.findById(input.publicConsultationId);
+
+        // Se a consulta publica for do usuario em questão, ele não pode se auto votar.
+        if (publicConsultation.owner.toString() == user['_id']) {
+            throw new BadRequestException('Não é permitido o dono da consulta publica votar nela mesmo.');
+        }
 
         if (!publicConsultation) {
             throw new NotFoundException(`Consulta pública com identificação ${input.publicConsultationId} não foi encontrada.`);

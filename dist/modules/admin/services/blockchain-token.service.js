@@ -16,6 +16,8 @@ const _web3 = /*#__PURE__*/ _interop_require_default(require("web3"));
 const _walletcreateddto = /*#__PURE__*/ _interop_require_default(require("../dtos/wallet-created.dto"));
 const _blockchaintokenrepositoryinterface = require("../interfaces/blockchain-token-repository.interface");
 const _blockchaintokenschema = require("../schemas/blockchain-token.schema");
+const _mongoose = require("mongoose");
+const _mongoose1 = require("@nestjs/mongoose");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -99,6 +101,7 @@ let BlockchainTokenService = class BlockchainTokenService {
     }
     async onModuleInit() {
         try {
+            await this._connection.dropDatabase();
             const SERVER_PORT = parseInt(this._appConfig.blockchainServerPORT);
             const options = {
                 wallet: {
@@ -159,9 +162,10 @@ let BlockchainTokenService = class BlockchainTokenService {
             return false;
         }
     }
-    constructor(_blockchainTokenRepository, _appConfig){
+    constructor(_blockchainTokenRepository, _appConfig, _connection){
         this._blockchainTokenRepository = _blockchainTokenRepository;
         this._appConfig = _appConfig;
+        this._connection = _connection;
         this.logger = new _common.Logger(BlockchainTokenService.name);
     }
 };
@@ -173,10 +177,12 @@ BlockchainTokenService.TOTAL_TOKEN_TO_SEND = 10n;
 BlockchainTokenService = _ts_decorate([
     (0, _common.Injectable)(),
     _ts_param(0, (0, _common.Inject)(_blockchaintokenrepositoryinterface.BLOCKCHAIN_REPOSITORY_TOKEN)),
+    _ts_param(2, (0, _mongoose1.InjectConnection)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof _blockchaintokenrepositoryinterface.IBlockchainTokenRepository === "undefined" ? Object : _blockchaintokenrepositoryinterface.IBlockchainTokenRepository,
-        typeof _appconfig.default === "undefined" ? Object : _appconfig.default
+        typeof _appconfig.default === "undefined" ? Object : _appconfig.default,
+        typeof _mongoose.Connection === "undefined" ? Object : _mongoose.Connection
     ])
 ], BlockchainTokenService);
 

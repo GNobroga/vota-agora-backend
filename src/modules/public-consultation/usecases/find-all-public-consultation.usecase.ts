@@ -16,7 +16,6 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
         private readonly _publicConsultationRepository: IPublicConsultationRepository,
         @InjectModel(PublicConsultationVote.name)
         private readonly _publicConsultationVoteModel: Model<PublicConsultationVote>
-
     ) {}
 
     async execute(input: Paginator): Promise<PublicConsultationResponseDTO[]> {

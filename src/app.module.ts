@@ -1,31 +1,43 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import AdminModule from './modules/admin/admin.module';
-import AuthModule from './modules/auth/auth.module';
-import PublicConsultationModule from './modules/public-consultation/public-consultation.module';
-import AppConfig from './modules/shared/app.config';
-import SharedModule from './modules/shared/shared.module';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Joi from 'joi';
+import InfrastructureModule from './infrastructure/infrastructure.module';
 import UserModule from './modules/users/user.module';
+import AuthModule from './modules/auth/auth.module';
+import PublicConsultationModule from './modules/public-consultations/public-consultation.module';
 
 @Module({
   imports: [
-    SharedModule,
-    MongooseModule.forRootAsync({
-      useFactory(appConfig: AppConfig) {
+    TypeOrmModule.forRootAsync({
+      useFactory() {
         return {
-          uri: appConfig.databaseURL,
-        };
+          type: 'sqlite',
+          database: 'vota-agora.db',
+          entities: [
+              __dirname + '/../**/*.entity{.ts,.js}',
+          ],
+          synchronize: true,
+          dropSchema: true,
+        }
       },
-      inject: [AppConfig],
-      imports: [
-        SharedModule,
-        AdminModule,
-        UserModule,
-        AuthModule,
-        PublicConsultationModule,
-      ],
     }),
+    ConfigModule.forRoot({
+        envFilePath: process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.prod',
+        validationSchema: Joi.object({
+          'SERVER_PORT': Joi.number().required(),
+          'BLOCKCHAIN_SERVER_PORT': Joi.number().required(),
+          'JWT_SECRET': Joi.string().required(),
+        }),
+    }),
+    InfrastructureModule,
+    UserModule,
+    PublicConsultationModule,
+    AuthModule
   ],
   controllers: [],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule {
+
+}

@@ -1,4 +1,4 @@
 
-export default interface IDefaultUseCase<Input, Output = Input> {
+export default interface IDefaultUseCase<Input, Output> {
     execute(input: Input): Promise<Output>;
 }

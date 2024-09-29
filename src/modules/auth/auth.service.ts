@@ -1,39 +1,52 @@
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
-import { IUserRepository, USER_REPOSITORY_TOKEN } from "../users/interfaces/user-repository.interface";
-import { JwtService } from "@nestjs/jwt";
-import LoginRequestDTO from "./dtos/request/login-request.dto";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import User from "../users/user.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { JwtService } from "@nestjs/jwt";
+import isNull from "src/core/utils/is-null";
+import { AuthUserInfo } from "./decorators/auth-user-info.decorator";
+
+export type SignIn = {
+    document: string;
+    password: string;
+}
+
+export type TokenOuput = {
+    access_token: string;
+}
 
 @Injectable()
 export default class AuthService {
+
     constructor(
-        @Inject(USER_REPOSITORY_TOKEN)
-        private readonly _userRepository: IUserRepository,
-        private jwtService: JwtService
+        @InjectRepository(User)
+        private _userRepository: Repository<User>,
+        private _jwtService: JwtService
     ) {}
 
-    async signIn(request: LoginRequestDTO) {
-        const user = await this._userRepository.findByDocument(request.document);
+    async signIn({ document, password }: SignIn) {
+        const user = await this._userRepository.findOne({ where: { document }});
 
-        if (!user) {
-            throw new UnauthorizedException('Usuário ou senha inválidos.');
+        if (isNull(user)) {
+            throw new UnauthorizedException('Usuário ou senha incorretos.');
         }
-
-        const isPasswordValid = await bcrypt.compare(request.password, user.password);
+        
+        const  isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            throw new UnauthorizedException('Usuário ou senha inválidos.');
+            throw new UnauthorizedException('Usuário ou senha incorretos.');
         }
 
-        const payload = { 
-            sub: user['_id'],
-            document: user.document, 
-            walletAddress: user.accountAddress, 
-            role: user.role 
-        };
+        const payload: AuthUserInfo = {
+            sub: user.id,
+            document: user.document,
+            accountAddress: user.accountAddress,
+            role: user.role,
+        }
 
         return {
-            access_token: await this.jwtService.signAsync(payload),
-        }
+            access_token: await this._jwtService.signAsync(payload),
+        } as TokenOuput;
     }
 }

@@ -1,38 +1,58 @@
-import { Inject, Injectable } from "@nestjs/common";
-import Paginator from "src/core/models/Paginator";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import PageRequest from "src/core/models/page-request";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
-import UserResponseDTO from "../dtos/response/user-response.dto";
-import { IUserRepository, USER_REPOSITORY_TOKEN } from "../interfaces/user-repository.interface";
-import { BLOCKCHAIN_SERVICE_TOKEN, IBlockchainTokenService } from "src/modules/admin/interfaces/blockchain-token-service.interface";
+import BlockchainService from "src/infrastructure/services/blockchain.service";
+import { Repository } from "typeorm";
+import User from "../user.entity";
+
+export type UserOutput = {
+    id: number;
+    fullName: string;
+    document: string;
+    rewardToken: string;
+    accountAddress: string;
+    privateKey: string;
+};
 
 @Injectable()
-export default class FindAllUsersUseCase implements IDefaultUseCase<Paginator, UserResponseDTO[]> {
+export default class FindAllUsersUseCase implements IDefaultUseCase<PageRequest, UserOutput[]> {
     
     constructor(
-        @Inject(USER_REPOSITORY_TOKEN)
-        private readonly _userRepository: IUserRepository,
-        @Inject(BLOCKCHAIN_SERVICE_TOKEN)
-        private readonly _blockchainService: IBlockchainTokenService
+        private _blockchainService: BlockchainService,
+        @InjectRepository(User)
+        private _userRepository: Repository<User>
     ) {}
     
-    async execute(input: Paginator): Promise<UserResponseDTO[]> {
-        const users = await this._userRepository.findAll(input);
-        const response = [] as UserResponseDTO[];
+    async execute(input: PageRequest): Promise<UserOutput[]> {
+        const users = await this._userRepository.find({
+            skip: (input.page - 1) * input.size,
+            take: input.size,
+            order: {
+                id: input.sort,
+            }
+        });
 
-        for (const { accountAddress, fullName, document, ...userRest} of users) {
-            console.log(userRest)
-            const balance = await this._blockchainService.findBalanceByAccountAddress(accountAddress);
-            const userResponseDTO = new UserResponseDTO({
-                balance,
-                id: userRest['_id'],
-                accountAddress,
-                fullName,
-                document,
-            });
-            response.push(userResponseDTO);
+        const output = [] as UserOutput[];
+
+        for (const user of users) {
+            const balance = await this._blockchainService.getBalanceByAddress(user.accountAddress);
+            output.push(this.mapUserToOutput(user, balance));
         }
-        
-        return response;
+
+        return output;
     }
+
+    private mapUserToOutput(user: User, balance: bigint): UserOutput {
+        return {
+            id: user.id,
+            fullName: user.fullName,
+            document: user.document,
+            accountAddress: user.accountAddress,
+            privateKey: user.privateKey,
+            rewardToken: balance.toString(),
+        }
+    }
+
 
 }

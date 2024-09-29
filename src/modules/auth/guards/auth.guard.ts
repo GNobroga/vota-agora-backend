@@ -12,6 +12,7 @@ export default class AuthGuard implements CanActivate {
         const request = http.getRequest<Request>();
 
         const token = this.extractTokenFromHeader(request);
+        
         if (!token) {
           return false;
         }

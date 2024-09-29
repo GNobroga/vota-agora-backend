@@ -1,4 +1,4 @@
 
 export default interface INullaryUseCase<Output> {
-    execute(): Output;
+    execute(): Promise<Output>;
 }

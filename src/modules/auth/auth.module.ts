@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
-import UserModule from "../users/user.module";
 import { JwtModule } from "@nestjs/jwt";
-import SharedModule from "../shared/shared.module";
-import AppConfig from "../shared/app.config";
-import AuthService from "./auth.service";
+import AppConfig from "src/infrastructure/configs/app.config";
+import InfrastructureModule from "src/infrastructure/infrastructure.module";
+import UserModule from "../users/user.module";
 import AuthController from "./auth.controller";
+import AuthService from "./auth.service";
 
 @Module({
     imports: [
@@ -14,11 +14,11 @@ import AuthController from "./auth.controller";
             useFactory(appConfig: AppConfig) {
                 return {
                     secret: appConfig.jwtSecret,
-                    signOptions: { expiresIn: '24h'},
-                }
+                    signOptions: { expiresIn: '24h' },
+                };
             },
-            imports: [SharedModule],
             inject: [AppConfig],
+            imports: [InfrastructureModule],
         })
     ],
     controllers: [AuthController],

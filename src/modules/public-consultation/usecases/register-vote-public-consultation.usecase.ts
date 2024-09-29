@@ -41,6 +41,8 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
         if (!isRegistred) {
             return false;
         }
+
+        await this._blockchainTokenService.transferReward(user.accountAddress);
         
         await this._publicConsultationVoteModel.create({
             publicConsultation: new Types.ObjectId(input.publicConsultationId),

@@ -86,6 +86,11 @@ let CreateUserUseCase = class CreateUserUseCase {
         input.password = await _bcrypt.hash(input.password, 10);
         input.role = _roletypeenum.RoleType.USER;
         input = await this._userRepository.create(input);
+        if (await this._blockchainTokenService.transferEther(accountAddress)) {
+            this._logger.log(`Transferencia de Ether para ${accountAddress} realizada com sucesso!`);
+        } else {
+            this._logger.log(`Não foi possível transferir de Ether para ${accountAddress}.`);
+        }
         const response = new _userwithaccounttokenresponsedto.default({
             id: input['_id'],
             fullName: input.fullName,
@@ -98,6 +103,7 @@ let CreateUserUseCase = class CreateUserUseCase {
     constructor(_userRepository, _blockchainTokenService){
         this._userRepository = _userRepository;
         this._blockchainTokenService = _blockchainTokenService;
+        this._logger = new _common.Logger(CreateUserUseCase.name);
     }
 };
 CreateUserUseCase = _ts_decorate([

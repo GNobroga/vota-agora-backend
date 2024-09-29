@@ -76,7 +76,8 @@ SharedModule = _ts_decorate([
                 validationSchema: _joi.object({
                     'SERVER_PORT': _joi.number().required(),
                     'DATABASE_URL': _joi.string().required(),
-                    'BLOCKCHAIN_URL': _joi.string().required()
+                    'BLOCKCHAIN_SERVER_PORT': _joi.number().required(),
+                    'JWT_SECRET': _joi.string().required()
                 })
             })
         ],

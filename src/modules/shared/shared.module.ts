@@ -12,7 +12,8 @@ import * as Joi from "joi";
             validationSchema: Joi.object({
                 'SERVER_PORT': Joi.number().required(),
                 'DATABASE_URL': Joi.string().required(),
-                'BLOCKCHAIN_URL': Joi.string().required(),
+                'BLOCKCHAIN_SERVER_PORT': Joi.number().required(),
+                'JWT_SECRET': Joi.string().required(),
             }),
         }),
     ],

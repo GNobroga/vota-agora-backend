@@ -28,8 +28,9 @@ function _ts_metadata(k, v) {
 }
 let BlockchainToken = class BlockchainToken {
     constructor(props){
-        this.tokenAddress = props.tokenAddress ?? this.tokenAddress;
-        this.accountAddress = props.accountAddress ?? this.accountAddress;
+        this.tokenAddress = props?.tokenAddress ?? this.tokenAddress;
+        this.accountAddress = props?.accountAddress ?? this.accountAddress;
+        this.privateKey = props?.privateKey ?? this.privateKey;
     }
 };
 _ts_decorate([
@@ -40,6 +41,10 @@ _ts_decorate([
     (0, _mongoose.Prop)(),
     _ts_metadata("design:type", String)
 ], BlockchainToken.prototype, "accountAddress", void 0);
+_ts_decorate([
+    (0, _mongoose.Prop)(),
+    _ts_metadata("design:type", String)
+], BlockchainToken.prototype, "privateKey", void 0);
 BlockchainToken = _ts_decorate([
     (0, _mongoose.Schema)({
         collection: 'blockchain_token'

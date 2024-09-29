@@ -20,8 +20,8 @@ function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 }
 let AppConfig = class AppConfig {
-    get blockchainURL() {
-        return this._configService.get('BLOCKCHAIN_URL');
+    get blockchainServerPORT() {
+        return this._configService.get('BLOCKCHAIN_SERVER_PORT');
     }
     get databaseURL() {
         return this._configService.get('DATABASE_URL');

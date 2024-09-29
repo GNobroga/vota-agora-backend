@@ -8,9 +8,13 @@ export class BlockchainToken {
     @Prop()
     accountAddress: string;
 
+    @Prop()
+    privateKey: string;
+
     constructor(props: Partial<BlockchainToken>) {
-        this.tokenAddress = props.tokenAddress ?? this.tokenAddress;
-        this.accountAddress = props.accountAddress ?? this.accountAddress;
+        this.tokenAddress = props?.tokenAddress ?? this.tokenAddress;
+        this.accountAddress = props?.accountAddress ?? this.accountAddress;
+        this.privateKey = props?.privateKey ?? this.privateKey;
     }
 }
 

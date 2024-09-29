@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import AdminModule from './modules/admin/admin.module';
+import AuthModule from './modules/auth/auth.module';
+import PublicConsultationModule from './modules/public-consultation/public-consultation.module';
 import AppConfig from './modules/shared/app.config';
 import SharedModule from './modules/shared/shared.module';
 import UserModule from './modules/users/user.module';
-import AuthModule from './modules/auth/auth.module';
-import PublicConsultationModule from './modules/public-consultation/public-consultation.module';
 
 @Module({
   imports: [

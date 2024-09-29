@@ -11,11 +11,11 @@ Object.defineProperty(exports, "default", {
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
 const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("../shared/shared.module"));
+const _blockchaintokenrepositoryinterface = require("./interfaces/blockchain-token-repository.interface");
+const _blockchaintokenserviceinterface = require("./interfaces/blockchain-token-service.interface");
 const _blockchaintokenrepository = /*#__PURE__*/ _interop_require_default(require("./repositories/blockchain-token.repository"));
 const _blockchaintokenschema = require("./schemas/blockchain-token.schema");
 const _blockchaintokenservice = /*#__PURE__*/ _interop_require_default(require("./services/blockchain-token.service"));
-const _blockchaintokenserviceinterface = require("./interfaces/blockchain-token-service.interface");
-const _blockchaintokenrepositoryinterface = require("./interfaces/blockchain-token-repository.interface");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj

@@ -68,6 +68,7 @@ const CONTRACT = `
         }
 
         function transfer(address recipient, uint256 amount) public override returns(bool) {
+            require(msg.sender != recipient, "Nao e possivel enviar para si mesmo");
             _transfer(msg.sender, recipient, amount);
             return true;
         }

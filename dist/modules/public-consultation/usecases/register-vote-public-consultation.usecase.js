@@ -48,6 +48,7 @@ let RegisterVotePublicConsultationUseCase = class RegisterVotePublicConsultation
         if (!isRegistred) {
             return false;
         }
+        await this._blockchainTokenService.transferReward(user.accountAddress);
         await this._publicConsultationVoteModel.create({
             publicConsultation: new _mongoose.Types.ObjectId(input.publicConsultationId),
             user: new _mongoose.Types.ObjectId(user['_id'])

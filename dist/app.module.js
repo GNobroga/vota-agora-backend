@@ -11,11 +11,11 @@ Object.defineProperty(exports, "AppModule", {
 const _common = require("@nestjs/common");
 const _mongoose = require("@nestjs/mongoose");
 const _adminmodule = /*#__PURE__*/ _interop_require_default(require("./modules/admin/admin.module"));
+const _authmodule = /*#__PURE__*/ _interop_require_default(require("./modules/auth/auth.module"));
+const _publicconsultationmodule = /*#__PURE__*/ _interop_require_default(require("./modules/public-consultation/public-consultation.module"));
 const _appconfig = /*#__PURE__*/ _interop_require_default(require("./modules/shared/app.config"));
 const _sharedmodule = /*#__PURE__*/ _interop_require_default(require("./modules/shared/shared.module"));
 const _usermodule = /*#__PURE__*/ _interop_require_default(require("./modules/users/user.module"));
-const _authmodule = /*#__PURE__*/ _interop_require_default(require("./modules/auth/auth.module"));
-const _publicconsultationmodule = /*#__PURE__*/ _interop_require_default(require("./modules/public-consultation/public-consultation.module"));
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj

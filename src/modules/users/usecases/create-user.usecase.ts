@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable } from "@nestjs/common";
+import { ConflictException, Inject, Injectable, Logger } from "@nestjs/common";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
 import UserWithAccountTokenResponseDTO from "../dtos/response/user-with-account-token-response.dto";
 import { User } from "../user.schema";
@@ -9,6 +9,8 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export default class CreateUserUseCase implements IDefaultUseCase<User, UserWithAccountTokenResponseDTO> {
+
+    private readonly _logger = new Logger(CreateUserUseCase.name);
     
     constructor(
         @Inject(USER_REPOSITORY_TOKEN)
@@ -30,6 +32,12 @@ export default class CreateUserUseCase implements IDefaultUseCase<User, UserWith
         input.password = await bcrypt.hash(input.password, 10);
         input.role = RoleType.USER;
         input = await this._userRepository.create(input);
+
+        if (await this._blockchainTokenService.transferEther(accountAddress)) {
+            this._logger.log(`Transferencia de Ether para ${accountAddress} realizada com sucesso!`);
+        } else {
+            this._logger.log(`Não foi possível transferir de Ether para ${accountAddress}.`);
+        }
         
         const response = new UserWithAccountTokenResponseDTO({
             id: input['_id'],

@@ -6,8 +6,8 @@ export default class AppConfig {
 
     constructor(private readonly _configService: ConfigService) {}
 
-    public get blockchainURL() {
-        return this._configService.get('BLOCKCHAIN_URL');
+    public get blockchainServerPORT() {
+        return this._configService.get('BLOCKCHAIN_SERVER_PORT');
     }
 
     public get databaseURL() {

@@ -48,7 +48,7 @@ let RegisterVotePublicConsultationUseCase = class RegisterVotePublicConsultation
         if (!publicConsultation) {
             throw new _common.NotFoundException(`Consulta pública com identificação ${input.publicConsultationId} não foi encontrada.`);
         }
-        const isRegistred = await this._blockchainTokenService.registerVote(user.accountAddress, input.publicConsultationId);
+        const isRegistred = await this._blockchainTokenService.registerVote(user.accountAddress, user.privateKey, input.publicConsultationId);
         if (!isRegistred) {
             return false;
         }

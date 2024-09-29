@@ -17,7 +17,8 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
     static readonly GAS = '6721975';
     static readonly GAS_PRICE = '875000000';
     static readonly TOTAL_ACCOUNTS = 1;
-    static readonly TOTAL_TOKEN_TO_SEND = 10n;
+    static readonly REWARD_TOKEN_TO_SEND = BigInt(100) * BigInt(10 ** 18);
+    static readonly DEFAULT_ETHER_TO_NEW_ACCOUNT = 1000;
 
     readonly logger = new Logger(BlockchainTokenService.name);
  
@@ -40,8 +41,8 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
     async transferReward(toAddress: string): Promise<boolean> {
         try {
             const { accountAddress } = await this._blockchainTokenRepository.findFirst();
-
-            await this.tokenContract.methods.transfer(toAddress, BlockchainTokenService.TOTAL_TOKEN_TO_SEND)
+ 
+            await this.tokenContract.methods.transfer(toAddress, BlockchainTokenService.REWARD_TOKEN_TO_SEND)
                 .send({
                     from: accountAddress,
                 });
@@ -55,7 +56,7 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
     async transferEther(toAddress: string): Promise<boolean> {
         try {
             const { accountAddress, privateKey } = await this._blockchainTokenRepository.findFirst();
-            const amountInWei = this._web3.utils.toWei(1000, 'ether');
+            const amountInWei = this._web3.utils.toWei(BlockchainTokenService.DEFAULT_ETHER_TO_NEW_ACCOUNT, 'ether');
             const tx = {
                 from: accountAddress,
                 to: toAddress,
@@ -73,12 +74,18 @@ export default class BlockchainTokenService implements OnModuleInit, IBlockchain
     }
 
 
-    async registerVote(address: string, publicConsultationId: string): Promise<boolean> {
+    async registerVote(address: string, privateKey: string, publicConsultationId: string): Promise<boolean> {
        try {
+       
+            if (!this.web3.eth.accounts.wallet[address]) {
+                this.web3.eth.accounts.wallet.add(privateKey);
+            }
+
             await this.tokenContract.methods.castVote(publicConsultationId)
                 .send({ from: address });
             return true;
        } catch(error) {
+            console.log(error)
             return false;
        }
     }

@@ -64,8 +64,7 @@ let BlockchainTokenService = class BlockchainTokenService {
             const signed = await this._web3.eth.accounts.signTransaction(tx, privateKey);
             await this._web3.eth.sendSignedTransaction(signed.rawTransaction);
             return true;
-        } catch (error) {
-            console.log(error);
+        } catch  {
             return false;
         }
     }

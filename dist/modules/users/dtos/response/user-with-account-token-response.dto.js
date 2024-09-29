@@ -14,7 +14,7 @@ let UserWithAccountTokenResponseDTO = class UserWithAccountTokenResponseDTO {
         this.fullName = props.fullName;
         this.document = props.document;
         this.tokenAddress = props.tokenAddress;
-        this.accessKey = props.accessKey;
+        this.privateKey = props.privateKey;
     }
 };
 

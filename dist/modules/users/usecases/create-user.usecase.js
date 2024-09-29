@@ -96,7 +96,7 @@ let CreateUserUseCase = class CreateUserUseCase {
             fullName: input.fullName,
             document: input.document,
             tokenAddress,
-            accessKey: privateKey
+            privateKey
         });
         return response;
     }

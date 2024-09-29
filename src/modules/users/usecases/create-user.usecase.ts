@@ -44,7 +44,7 @@ export default class CreateUserUseCase implements IDefaultUseCase<User, UserWith
             fullName: input.fullName,
             document: input.document,
             tokenAddress,
-            accessKey: privateKey,
+            privateKey,
         })
         return response;
     }

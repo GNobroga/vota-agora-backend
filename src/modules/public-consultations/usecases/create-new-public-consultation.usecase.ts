@@ -50,10 +50,6 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
         const initialDate = moment(input.initialDate).utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
         const endDate = moment(input.endDate).utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
 
-        console.log(today.format())
-        console.log(initialDate.toDate())
-        console.log(endDate.format())
-
         if (!initialDate.isValid() || !endDate.isValid()) {
             throw new BadRequestException('A data inicial e final precisam ser válidas.');
         }

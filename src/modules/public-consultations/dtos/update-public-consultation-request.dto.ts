@@ -1,8 +1,8 @@
-import { IsIn, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
+import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
 
 export default class UpdatePublicConsultationRequestDTO {
     
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     id: number;
 

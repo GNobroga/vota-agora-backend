@@ -29,6 +29,8 @@ export type CreateNewPublicConsultationOutput = {
 @Injectable()
 export default class CreateNewPublicConsultationUseCase implements IDefaultUseCase<CreateNewPublicConsultationInput, CreateNewPublicConsultationOutput> {
 
+    private static readonly DATE_OFFSET = -3;
+
     constructor(
         @InjectRepository(PublicConsultation)
         private _publicConsultationRepository: Repository<PublicConsultation>,
@@ -44,11 +46,19 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
             throw new BadRequestException('Usuario nao encontrado.'); 
         }
 
-        const today = moment().startOf('day');
-        const initialDate = moment(input.initialDate);
-        const endDate = moment(input.endDate);
+        const today = moment().utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
+        const initialDate = moment(input.initialDate).utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
+        const endDate = moment(input.endDate).utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
 
-        if (initialDate.startOf('day').isBefore(today)) {
+        console.log(today.format())
+        console.log(initialDate.toDate())
+        console.log(endDate.format())
+
+        if (!initialDate.isValid() || !endDate.isValid()) {
+            throw new BadRequestException('A data inicial e final precisam ser válidas.');
+        }
+
+        if (initialDate.isBefore(today)) {
             throw new BadRequestException('A data inicial não pode ser inferior à data atual.');
         }
 
@@ -60,8 +70,8 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
             title: input.title,
             description: input.description,
             imageUrl: input.imageUrl,
-            initialDate: input.initialDate,
-            endDate: input.endDate,
+            initialDate: initialDate.toDate(),
+            endDate: endDate.toDate(),
             owner: user,
             category: input.category,
         });

@@ -12,6 +12,7 @@ export type UpdatePublicConsultationInput = {
     title: string;
     description: string;
     imageUrl?: string;
+    status: 'open' | 'closed';
     loggedUserId: number;
     loggedUserRole: RoleType;
 }
@@ -47,6 +48,7 @@ export default class UpdatePublicConsultationUseCase implements IUnaryUseCase<Up
             entity.title = input.title;
             entity.description = input.description;
             entity.imageUrl = input.imageUrl;
+            entity.status = input.status;
             await this._publicConsultationRepository.save(entity);
         } else {
             throw new BadRequestException('Sem permissão para atualizar esse registro.');

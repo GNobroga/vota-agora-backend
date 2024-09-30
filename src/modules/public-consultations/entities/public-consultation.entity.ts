@@ -23,10 +23,10 @@ export default class PublicConsultation extends AbstractEntity {
     @Column({ nullable: true })
     category: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'datetime' })
     initialDate: Date;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'datetime' })
     endDate: Date;
 
     @ManyToOne(() => User)

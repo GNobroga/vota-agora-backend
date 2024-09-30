@@ -2,6 +2,9 @@
 
 Link para o frontend <a href="https://github.com/4L1C3-R4BB1T/vota-agora-frontend">Frontend</a>
 
+![](docs/usecases.jpg)
+
+
 ## Objetivo da Aplicação:
 
 O objetivo desta aplicação é desenvolver um sistema que utilize a blockchain para garantir a integridade e a consistência de uma votação em uma consulta pública realizada por um usuário. Consultas públicas são entidades que representam ideias que serão debatidas por um determinado indivíduo.
@@ -27,9 +30,9 @@ O fluxo da aplicação funcionará da seguinte forma: ao se cadastrar, o usuári
 ```
 
 ```json
-    {
+{
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmY5M2Q1MWJkNDBmMDgzZTljOTlhY2QiLCJkb2N1bWVudCI6IjE3MzY0NTA5NzIwIiwid2FsbGV0QWRkcmVzcyI6IjB4MEFGNjY3Y0VjMDlEQzU2OEJkM0Y1YkI2YzY3MjBGNDc5NjZiOWY1NyIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3Mjc2MTA1ODQsImV4cCI6MTcyNzY5Njk4NH0.4tP7zwtlZb6P9Dg_CXIOf21Zz97YM_Na-pv_hrXQYHY"
-    }
+}
 ```
 
 - O token deverá ser colocado no cabeçalho **Authorization** da requisição com o prefixo **Bearer [Token]**
@@ -50,12 +53,13 @@ O fluxo da aplicação funcionará da seguinte forma: ao se cadastrar, o usuári
 
 ```json
 [
-    {
-        "id": "66f93d51bd40f083e9c99acd",
-        "fullName": "Gabriel C",
+   {
+        "id": 1,
+        "fullName": "Gabriel",
         "document": "17364509720",
-        "accountAddress": "0x0AF667cEc09DC568Bd3F5bB6c6720F47966b9f57",
-        "rewardToken": "1000"
+        "accountAddress": "0x6F81D1c8f35d02b299cb8d79b55fE51880D24D84",
+        "privateKey": "0x295c5ee5d7ab2493ac34f6f99dbf930501fa3fe1d7a2f70f7ba5f71fadb6396e",
+        "rewardTokenAddress": "0x151339846E9C95dD85dE1Fb12df8De5578A2Ae50"
     }
 ]
 ```
@@ -71,25 +75,26 @@ O fluxo da aplicação funcionará da seguinte forma: ao se cadastrar, o usuári
 ```
 
 ```json
-    {
-        "fullName": "Gabriel Cardoso",
-        "document": "YOUR_DOCUMENT",
-        "password": "YOUR_PASSWORD",
-        "confirmationPassword": "YOUR_PASSWORD",
-    }
+{
+    "fullName": "Gabriel Cardoso",
+    "document": "YOUR_DOCUMENT",
+    "password": "YOUR_PASSWORD",
+    "confirmationPassword": "YOUR_PASSWORD",
+}
 ```
 
 - Caso o **Document** já exista, não será possível utilizar.
 
 
 ```json
-    {
-        "id": "66f93d51bd40f083e9c99acd",
-        "fullName": "Gabriel C",
-        "document": "YOUR_DOCUMENT",
-        "tokenAddress": "0x9416175c512b71bfA3FeEB050D99C201528636d1",
-        "privateKey": "0xd9bf176496eabe7f367b7662294645a2946e13fa4e5efc77c18fe637011103ab"
-    }
+{
+    "id": 1,
+    "fullName": "Gabriel",
+    "document": "17364509720",
+    "accountAddress": "0x6F81D1c8f35d02b299cb8d79b55fE51880D24D84",
+    "privateKey": "0x295c5ee5d7ab2493ac34f6f99dbf930501fa3fe1d7a2f70f7ba5f71fadb6396e",
+    "rewardTokenAddress": "0x151339846E9C95dD85dE1Fb12df8De5578A2Ae50"
+}
 ```
 
 - **privateKey** - Permite o usuário importa sua conta. (Exemplo: no Metamask)
@@ -101,11 +106,75 @@ O fluxo da aplicação funcionará da seguinte forma: ao se cadastrar, o usuári
 
 🟢 **```GET```** :: Obter todas as consultas
 
-
-
 - **```page```:** numéro da página (começa em zero)
 - **```size```:** quantidade de itens por página
 
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Title3",
+    "ownerName": "Gabriel",
+    "description": "Descirption",
+    "endDate": "2024-09-30T15:42:00.000Z",
+    "initialDate": "2024-09-30T13:47:00.000Z",
+    "imageUrl": null,
+    "category": "Alimentícia",
+    "status": "open",
+    "owner": true
+  },
+   {
+    "id": 2,
+    "title": "Title3",
+    "ownerName": "Miguel",
+    "description": "Descirption",
+    "endDate": "2024-09-30T15:42:00.000Z",
+    "initialDate": "2024-09-30T13:47:00.000Z",
+    "imageUrl": null,
+    "category": "Alimentícia",
+    "status": "open",
+    "voted": false
+  },
+   {
+    "id": 3,
+    "title": "Title3",
+    "ownerName": "Lívia",
+    "description": "Descirption",
+    "endDate": "2024-09-30T15:42:00.000Z",
+    "initialDate": "2024-09-30T13:47:00.000Z",
+    "imageUrl": null,
+    "category": "Alimentícia",
+    "status": "open",
+    "voted": true
+  }
+]
+```
+
+- Na listagem, caso o usuário logado seja o dono irá exibir o campo **owner** como **true**.
+- Caso o usuário logado não seja o dono, vai exibir normalmente o campo **voted**.
+
+🟡 **```POST```** ::  Permite criar uma Consulta Pública
+
+```
+/api/v1/public-consultation
+```
+
+```json
+{
+  "title": "Title3",
+  "description": "Descirption",
+  "initialDate": "2024-09-30T10:40:00",
+  "endDate": "2024-09-30T12:42:00",
+  "category": "Alimentícia"
+}
+```
+
+- O usuário logado terá sua identificação associada a consulta automaticamente.
+- A data inicial não pode ser menor que a data de hoje.
+- A data inicial não pode ser maior que a data final.
+- A Consulta Pública terá o status **open** ao ser criada.
+- Quando o **endDate** for menor que a a data atual automaticamente a consulta mudará seu status para **closed**. 
 
 ## Tecnologias
 

@@ -19,7 +19,7 @@ const TOKEN_CONTRACT = `
 
         mapping(address => uint256) private _balances;
 
-        mapping(string => mapping(address => bool)) private _hasVoted;
+        mapping(uint256 => mapping(address => bool)) private _hasVoted;
 
         constructor(uint256 initialSupply) {
             _mint(msg.sender, initialSupply);
@@ -39,7 +39,7 @@ const TOKEN_CONTRACT = `
         }
 
         function castVote(
-            string memory publicConsultationId_
+            uint256 publicConsultationId_
         ) public returns (bool) {
             require(
                 !_hasVoted[publicConsultationId_][msg.sender],

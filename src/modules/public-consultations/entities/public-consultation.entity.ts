@@ -1,6 +1,6 @@
 import AbstractEntity from "src/infrastructure/entities/abstract-entity.entity";
 import User from "src/modules/users/user.entity";
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity({ name: 'tb_public_consultation' })
 export default class PublicConsultation extends AbstractEntity {
@@ -20,7 +20,8 @@ export default class PublicConsultation extends AbstractEntity {
     @Column({ type: 'date' })
     endDate: Date;
 
-    @ManyToOne(() => User )
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'owner_id' })
     owner: User;
 
 }   

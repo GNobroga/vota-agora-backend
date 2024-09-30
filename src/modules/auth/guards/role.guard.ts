@@ -15,7 +15,7 @@ export default class RoleGuard implements CanActivate {
         const handlerRoles = this.reflector.get<string[]>(AUTHORIZE_KEY, context.getHandler()) ?? [];
 
         const roles = handlerRoles.length ? handlerRoles : classRoles;
-
+        console.log(roles, claimRoles)
         return roles.some(role => claimRoles.includes(role));
     }
     

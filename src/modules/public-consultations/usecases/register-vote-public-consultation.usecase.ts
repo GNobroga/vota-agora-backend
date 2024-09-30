@@ -43,8 +43,8 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
         if (isNull(publicConsultation)) {
             throw new BadRequestException('Consulta publica não encontrada.');
         }
-
-        if (input.loggedUserId !== publicConsultation.owner.id) {
+ 
+        if (input.loggedUserId === publicConsultation.owner.id) {
             throw new BadRequestException('Não é permitido o dono da consulta publica votar nela mesmo.');
         }
 

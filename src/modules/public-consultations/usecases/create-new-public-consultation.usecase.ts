@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import moment from "moment";
+import * as moment from "moment";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
 import isNull from "src/core/utils/is-null";
 import User from "src/modules/users/user.entity";
@@ -61,9 +61,7 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
             imageUrl: input.imageUrl,
             initialDate: input.initialDate,
             endDate: input.endDate,
-            user: {
-                id: user.id,
-            }
+            owner: user,
         });
 
         return {

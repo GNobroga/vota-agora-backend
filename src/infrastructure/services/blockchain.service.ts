@@ -68,7 +68,7 @@ export default class BlockchainService implements OnModuleInit {
             this._logger.log(`Voto registrado para ${publicConsultationId} com sucesso.`);
 
             return true;
-        } catch {
+        } catch(error) {
             this._logger.log('Falha ao realizar voto');
             return false;
         }

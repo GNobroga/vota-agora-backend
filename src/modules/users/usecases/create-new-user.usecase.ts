@@ -21,6 +21,7 @@ export type CreateNewUserOutput = {
     document: string;
     accountAddress: string;
     privateKey: string;
+    rewardTokenAddress: string;
 }
 
 @Injectable()
@@ -63,6 +64,7 @@ export default class CreateNewUserUseCase implements IDefaultUseCase<CreateNewUs
             document: user.document,
             accountAddress: user.accountAddress,
             privateKey: user.privateKey,
+            rewardTokenAddress: this._blockchainService.tokenInfo.tokenAddress,
         };
     }
 }

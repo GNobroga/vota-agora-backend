@@ -10,9 +10,10 @@ export type UserOutput = {
     id: number;
     fullName: string;
     document: string;
-    rewardToken: string;
     accountAddress: string;
     privateKey: string;
+    rewardToken: string;
+    rewardTokenAddress?: string;
 };
 
 @Injectable()
@@ -33,14 +34,16 @@ export default class FindAllUsersUseCase implements IDefaultUseCase<PageRequest,
             }
         });
 
-        const output = [] as UserOutput[];
+        const outputs = [] as UserOutput[];
 
         for (const user of users) {
             const balance = await this._blockchainService.getBalanceByAddress(user.accountAddress);
-            output.push(this.mapUserToOutput(user, balance));
+            const output = this.mapUserToOutput(user, balance);
+            output.rewardTokenAddress = this._blockchainService.tokenInfo.tokenAddress;
+            outputs.push(output);
         }
 
-        return output;
+        return outputs;
     }
 
     private mapUserToOutput(user: User, balance: bigint): UserOutput {

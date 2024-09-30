@@ -41,6 +41,10 @@ export default class BlockchainService implements OnModuleInit {
 
     constructor(private _appConfig: AppConfig) {}
 
+    get tokenInfo() {
+        return this._tokenInfo;
+    }
+    
     async createNewAccount(): Promise<AccountInfo> {
         const newAccount = this._web3.eth.accounts.create();
         const { tokenAddress } = this._tokenInfo;

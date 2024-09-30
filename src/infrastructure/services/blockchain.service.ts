@@ -55,6 +55,16 @@ export default class BlockchainService implements OnModuleInit {
         return await this._contract.methods.balanceOf(address).call();
     }
 
+    async hasVoted(accountAddress: string, publicConsultationId: number): Promise<boolean> {
+        try {
+            return await this._contract.methods.hasVoted(publicConsultationId)
+                .call({ from: accountAddress });
+        } catch (error) {
+            this._logger.warn("Error checking vote status:", error);
+           return false;
+        }
+    }
+    
     async registerVote({ accountAddress, privateKey, publicConsultationId }: RegisterVote) {
         try {
             if (!this._web3.eth.accounts.wallet[accountAddress]) {

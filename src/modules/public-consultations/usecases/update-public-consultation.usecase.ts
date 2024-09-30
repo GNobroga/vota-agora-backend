@@ -33,6 +33,10 @@ export default class UpdatePublicConsultationUseCase implements IUnaryUseCase<Up
             relations: ['owner'],
          });
 
+        if (entity.status === 'closed') {
+            throw new BadRequestException('Não é possível modificar uma consulta pública fechada.');
+        }
+
         if (isNull(entity)) {
             throw new NotFoundException(`Não existe uma consulta pública com a identificação ${input.identifier}`);
         }

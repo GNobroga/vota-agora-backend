@@ -1,11 +1,11 @@
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import PageRequest from "src/core/models/page-request";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
-import isNull from "src/core/utils/is-null";
+import BlockchainService from "src/infrastructure/services/blockchain.service";
 import { Repository } from "typeorm";
-import PublicConsultationVote from "../entities/public-consultation-vote.entity";
 import PublicConsultation from "../entities/public-consultation.entity";
-import { Injectable } from "@nestjs/common";
+import User from "src/modules/users/user.entity";
 
 export type FindAllPublicConsultationInput = {
     loggedUserId: number;
@@ -15,11 +15,15 @@ export type FindAllPublicConsultationInput = {
 export type FindAllPublicConsultationOutput = {
     id: number;
     title: string;
+    ownerName: string;
     imageUrl?: string;
     description: string;
     initialDate: Date;
     endDate: Date;
+    category: string;
+    status: 'open' | 'closed';
     voted?: boolean;
+    owner?: boolean;
 }
 
 @Injectable()
@@ -28,8 +32,9 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
     constructor(
         @InjectRepository(PublicConsultation)
         private _publicConsultationRepository: Repository<PublicConsultation>,
-        @InjectRepository(PublicConsultationVote)
-        private _publicConsultationVoteRepository: Repository<PublicConsultationVote>,
+        @InjectRepository(User)
+        private _userRepository: Repository<User>,
+        private _blockchainService: BlockchainService
     ) {}
 
 
@@ -40,13 +45,20 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
             take: pageRequest.size,
             order: {
                 id: pageRequest.sort,
-            }
+            },
+            relations: ['owner'],
         });
+
+        const loggedUser = await this._userRepository.findOneBy({ id: loggedUserId });
 
         for (const entity of entities) {
             const output = this.mapEntityToOutput(entity)
-            output.voted = await this.loggedUserHasVoted(entity.id, loggedUserId);
-            outputs.push(this.mapEntityToOutput(entity))
+            if (entity.owner.id !== loggedUserId) {
+                output.voted = await this.loggedUserHasVoted(loggedUser.accountAddress, entity.id);
+            } else {
+                output.owner = true;
+            }
+            outputs.push(output);
         }
 
         return outputs;
@@ -56,22 +68,17 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
         return {
             id: entity.id,
             title: entity.title,
+            ownerName: entity.owner.fullName,
             description: entity.description,
             endDate: entity.endDate,
             initialDate: entity.initialDate,
             imageUrl: entity.imageUrl,
+            category: entity.category,
+            status: entity.status,
         };
     }
 
-    private async loggedUserHasVoted(publicConsultationVoteId: number, userId: number) {
-        const entity = await this._publicConsultationVoteRepository.findOneBy({ 
-            user: {
-                id: userId,
-            },
-            publicConsultation: {
-                id: publicConsultationVoteId,
-            }
-        });
-        return !isNull(entity);
+    private async loggedUserHasVoted(accountAddress: string, publicConsultationId: number) {
+       return await this._blockchainService.hasVoted(accountAddress, publicConsultationId);
     }
 }

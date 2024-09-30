@@ -1,12 +1,11 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
-import PublicConsultationVote from "../entities/public-consultation-vote.entity";
-import { Repository } from "typeorm";
-import PublicConsultation from "../entities/public-consultation.entity";
 import isNull from "src/core/utils/is-null";
 import BlockchainService from "src/infrastructure/services/blockchain.service";
 import User from "src/modules/users/user.entity";
+import { Repository } from "typeorm";
+import PublicConsultation from "../entities/public-consultation.entity";
 
 export type RegisterVotePublicConsultationInput = {
     publicConsultationId: number;
@@ -24,8 +23,6 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
     constructor(
         @InjectRepository(PublicConsultation)
         private _publicConsultationRepository: Repository<PublicConsultation>,
-        @InjectRepository(PublicConsultationVote)
-        private _publicConsultationVoteRepository: Repository<PublicConsultationVote>,
         private _blockchainService: BlockchainService,
         @InjectRepository(User)
         private _userRepository: Repository<User>
@@ -39,6 +36,10 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
             },
             relations: ['owner'],
         });
+
+        if (publicConsultation.status === 'closed') {
+            throw new BadRequestException('Não é possível votar em uma consulta pública fechada.');
+        }
         
         if (isNull(publicConsultation)) {
             throw new BadRequestException('Consulta publica não encontrada.');
@@ -68,10 +69,10 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
             this._blockchainService.transferReward(publicConsultation.owner.accountAddress)
         ]);
 
-        await this._publicConsultationVoteRepository.save({
-            publicConsultation,
-            user
-        });
+
+        publicConsultation.participationCount++;
+
+        await this._publicConsultationRepository.save(publicConsultation);
 
         return {
             result: true,

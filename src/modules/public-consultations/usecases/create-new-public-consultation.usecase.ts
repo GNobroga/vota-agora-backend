@@ -14,6 +14,7 @@ export type CreateNewPublicConsultationInput = {
     initialDate: Date;
     imageUrl?: string;
     endDate: Date;
+    category: string;
 }
 
 export type CreateNewPublicConsultationOutput = {
@@ -44,10 +45,10 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
         }
 
         const today = moment().startOf('day');
-        const initialDate = moment(input.initialDate).startOf('day');
-        const endDate = moment(input.endDate).startOf('day');
+        const initialDate = moment(input.initialDate);
+        const endDate = moment(input.endDate);
 
-        if (initialDate.isBefore(today)) {
+        if (initialDate.startOf('day').isBefore(today)) {
             throw new BadRequestException('A data inicial não pode ser inferior à data atual.');
         }
 
@@ -62,6 +63,7 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
             initialDate: input.initialDate,
             endDate: input.endDate,
             owner: user,
+            category: input.category,
         });
 
         return {

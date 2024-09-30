@@ -14,6 +14,15 @@ export default class PublicConsultation extends AbstractEntity {
     @Column({ nullable: true })
     imageUrl?: string;
 
+    @Column({ default: 0 })
+    participationCount: number;
+
+    @Column({ default: 'open' })
+    status: 'open' | 'closed';
+
+    @Column({ nullable: true })
+    category: string;
+
     @Column({ type: 'date' })
     initialDate: Date;
 

@@ -51,6 +51,10 @@ const TOKEN_CONTRACT = `
             return true;
         }
 
+        function hasVoted(uint256 publicConsultationId_) public view returns (bool) {
+            return _hasVoted[publicConsultationId_][msg.sender];
+        }
+
         function name() public view returns (string memory) {
             return _name;
         }

@@ -17,6 +17,10 @@ export default class CreatePublicConsultationRequestDTO {
     @IsNotEmpty()
     initialDate: Date;
 
+    @IsString()
+    @IsNotEmpty()
+    category: string;
+
     @IsUrl()
     @IsOptional()
     imageUrl: string;

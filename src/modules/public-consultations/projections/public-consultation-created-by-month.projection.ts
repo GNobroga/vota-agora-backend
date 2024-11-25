@@ -6,6 +6,7 @@ import PublicConsultation from "../entities/public-consultation.entity";
         return dataSource.createQueryBuilder()
             .select("strftime('%Y', consultation.created_at) AS year") 
             .addSelect("strftime('%m', consultation.created_at) AS month")  
+            .addSelect("strftime('%d', consultation.created_at) AS day")  
             .addSelect("COUNT(*) AS totalCreated") 
             .from(PublicConsultation, "consultation")
             .where("strftime('%Y', consultation.created_at) = strftime('%Y', 'now')")  
@@ -19,6 +20,8 @@ export class PublicConsultationCreatedByMonthProjection {
     year: number;
     @ViewColumn()
     month: number;
+    @ViewColumn()
+    day: number;
     @ViewColumn()
     totalCreated: number;
 }

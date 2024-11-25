@@ -6,6 +6,7 @@ import Vote from "../entities/vote-count.entity";
         return dataSource.createQueryBuilder()
             .select("strftime('%Y', vote.created_at) AS year")
             .addSelect("strftime('%m', vote.created_at) AS month")  
+            .addSelect("strftime('%d', vote.created_at) AS day")  
             .addSelect("COUNT(*) AS totalCreated") 
             .from(Vote, 'vote')
             .where("strftime('%Y', vote.created_at) = strftime('%Y', 'now')")  
@@ -19,6 +20,8 @@ export default class VotesCreatedByMonthProjection {
     year: number;
     @ViewColumn()
     month: number;
+    @ViewColumn()
+    day: number;
     @ViewColumn()
     totalCreated: number;
 }

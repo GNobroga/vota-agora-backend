@@ -11,8 +11,7 @@ export type CreateNewPublicConsultationInput = {
     loggedUserId: number;
     title: string;
     description: string;
-    initialDate: Date;
-    imageUrl?: string;
+    imageUrl: string;
     endDate: Date;
     category: string;
 }
@@ -47,18 +46,17 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
         }
 
         const today = moment().utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
-        const initialDate = moment(input.initialDate).utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
         const endDate = moment(input.endDate).utcOffset(CreateNewPublicConsultationUseCase.DATE_OFFSET);
 
-        if (!initialDate.isValid() || !endDate.isValid()) {
+        if (!today.isValid() || !endDate.isValid()) {
             throw new BadRequestException('A data inicial e final precisam ser válidas.');
         }
 
-        if (initialDate.isBefore(today)) {
+        if (today.isBefore(today)) {
             throw new BadRequestException('A data inicial não pode ser inferior à data atual.');
         }
 
-        if (initialDate.isAfter(endDate)) {
+        if (today.isAfter(endDate)) {
             throw new BadRequestException('A data inicial não pode ser superior à data final.');
         }
 
@@ -66,7 +64,7 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
             title: input.title,
             description: input.description,
             imageUrl: input.imageUrl,
-            initialDate: initialDate.toDate(),
+            initialDate: today.toDate(),
             endDate: endDate.toDate(),
             owner: user,
             category: input.category,

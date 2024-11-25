@@ -12,11 +12,6 @@ export default class CreatePublicConsultationRequestDTO {
     @MaxLength(5000)
     description: string;
 
-    @Type(() => Date)
-    @IsDate()
-    @IsNotEmpty()
-    initialDate: Date;
-
     @IsString()
     @IsNotEmpty()
     category: string;

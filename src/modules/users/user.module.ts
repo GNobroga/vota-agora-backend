@@ -14,7 +14,10 @@ import User from "./user.entity";
     providers: [
         ...usecases
     ],
-    exports: [TypeOrmModule.forFeature([User])],
+    exports: [
+        TypeOrmModule.forFeature([User]),
+        ...usecases,
+    ],
 })
 export default class UserModule {
 

@@ -4,7 +4,6 @@ import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity({ name: 'tb_public_consultation' })
 export default class PublicConsultation extends AbstractEntity {
-
     @Column()
     title: string;
 

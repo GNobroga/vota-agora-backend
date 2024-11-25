@@ -1,13 +1,13 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
-import CreateNewUserUseCase from "./usecases/create-new-user.usecase";
-import FindAllUsersUseCase from "./usecases/find-all-users.usecase";
-import AuthGuard from "../auth/guards/auth.guard";
-import RoleGuard from "../auth/guards/role.guard";
-import { Authorize } from "../auth/decorators/authorize.decorator";
-import { RoleType } from "../auth/role-type.enum";
 import { PaginatorDecorator } from "src/core/decorators/pagination.decorator";
 import PageRequest from "src/core/models/page-request";
+import { Authorize } from "../auth/decorators/authorize.decorator";
+import AuthGuard from "../auth/guards/auth.guard";
+import RoleGuard from "../auth/guards/role.guard";
+import { RoleType } from "../auth/role-type.enum";
 import CreateNewUserRequestDTO from "./dtos/create-new-user-request.dto";
+import CreateNewUserUseCase from "./usecases/create-new-user.usecase";
+import FindAllUsersUseCase from "./usecases/find-all-users.usecase";
 
 @Controller({
     path: 'users',

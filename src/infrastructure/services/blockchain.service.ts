@@ -1,9 +1,8 @@
-import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import Web3, { Contract } from "web3";
-import ganache, { EthereumProvider } from 'ganache';
-import AppConfig from "../configs/app.config";
-import { ServerOptions } from "ganache";
+import { Injectable, Logger } from "@nestjs/common";
 import loadContract from "blockchain/load-contract";
+import ganache, { EthereumProvider, ServerOptions } from 'ganache';
+import Web3, { Contract } from "web3";
+import AppConfig from "../configs/app.config";
 
 export type RegisterVote = {
     accountAddress: string;
@@ -24,7 +23,7 @@ export type AccountInfo = {
 }
 
 @Injectable()
-export default class BlockchainService implements OnModuleInit {
+export default class BlockchainService {
 
     static readonly INITIAL_SUPPLY = 1000000000000000000000000n;
     static readonly GAS = '6721975';
@@ -39,7 +38,9 @@ export default class BlockchainService implements OnModuleInit {
     private _contract: Contract<any>;
     private _tokenInfo: TokenInfo;
 
-    constructor(private _appConfig: AppConfig) {}
+    constructor(
+        private _appConfig: AppConfig
+    ) {}
 
     get tokenInfo() {
         return this._tokenInfo;
@@ -124,7 +125,7 @@ export default class BlockchainService implements OnModuleInit {
         }
     }
 
-    async onModuleInit() {
+    async init(executeTask?: () => void) {
         const blockchainServerPort = parseInt(this._appConfig.blockchainServerPort);
         const options: ServerOptions = {
             wallet: {
@@ -138,7 +139,8 @@ export default class BlockchainService implements OnModuleInit {
         server.listen(blockchainServerPort, async error => {
             if (error) throw error;
             this._logger.log(`Ganache server is open on port: ${blockchainServerPort}`);
-            this.startWeb3(server.provider);
+            await this.startWeb3(server.provider);
+            executeTask?.();
         });
 
     }

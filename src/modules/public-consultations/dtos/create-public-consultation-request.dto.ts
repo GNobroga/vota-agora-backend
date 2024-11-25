@@ -1,9 +1,7 @@
 import { Type } from "class-transformer";
 import { IsDate, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
 
-
 export default class CreatePublicConsultationRequestDTO {
-
     @IsString()
     @IsNotEmpty()
     @MaxLength(3000)

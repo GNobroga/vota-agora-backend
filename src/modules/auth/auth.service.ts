@@ -6,6 +6,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "@nestjs/jwt";
 import isNull from "src/core/utils/is-null";
 import { AuthUserInfo } from "./decorators/auth-user-info.decorator";
+import cleanTextToNumbers from "src/core/utils/clean-text-to-numbers";
 
 export type SignIn = {
     document: string;
@@ -26,7 +27,8 @@ export default class AuthService {
     ) {}
 
     async signIn({ document, password }: SignIn) {
-        const user = await this._userRepository.findOne({ where: { document }});
+        
+        const user = await this._userRepository.findOne({ where: { document: cleanTextToNumbers(document) }});
 
         if (isNull(user)) {
             throw new UnauthorizedException('Usuário ou senha incorretos.');

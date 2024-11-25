@@ -17,6 +17,9 @@ export default class User extends AbstractEntity {
     accountAddress: string;
 
     @Column()
+    rewardTokenAddress: string;
+
+    @Column()
     privateKey: string;
 
     @Column({ default: 'ROLE_USER' })

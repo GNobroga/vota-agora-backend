@@ -38,13 +38,13 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
     ) {}
 
 
-    async execute({ loggedUserId, pageRequest }: FindAllPublicConsultationInput): Promise<FindAllPublicConsultationOutput[]> {
+    async execute({ loggedUserId, pageRequest: { page, size, sort } }: FindAllPublicConsultationInput): Promise<FindAllPublicConsultationOutput[]> {
         const outputs: FindAllPublicConsultationOutput[] = [];
         const entities = await this._publicConsultationRepository.find({
-            skip: (pageRequest.page - 1) * pageRequest.size,
-            take: pageRequest.size,
+            skip: (page - 1) * size,
+            take: size,
             order: {
-                id: pageRequest.sort,
+                id: sort,
             },
             relations: ['owner'],
         });
@@ -53,10 +53,9 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
 
         for (const entity of entities) {
             const output = this.mapEntityToOutput(entity)
-            if (entity.owner.id !== loggedUserId) {
+            output.owner = entity.owner.id === loggedUserId;
+            if (!output.owner) {
                 output.voted = await this.loggedUserHasVoted(loggedUser.accountAddress, entity.id);
-            } else {
-                output.owner = true;
             }
             outputs.push(output);
         }

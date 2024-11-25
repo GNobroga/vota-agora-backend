@@ -24,7 +24,6 @@ export default class UpdatePublicConsultationUseCase implements IUnaryUseCase<Up
         @InjectRepository(PublicConsultation)
         private _publicConsultationRepository: Repository<PublicConsultation>
     ) {}
-
     
     async execute(input: UpdatePublicConsultationInput): Promise<void> {
         const entity = await this._publicConsultationRepository.findOne({

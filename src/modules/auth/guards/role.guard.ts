@@ -6,7 +6,9 @@ import { RoleType } from "../role-type.enum";
 @Injectable()
 export default class RoleGuard implements CanActivate {
 
-    constructor(private readonly reflector: Reflector) {}
+    constructor(
+        private readonly reflector: Reflector
+    ) {}
 
     canActivate(context: ExecutionContext) {
         const request = context.switchToHttp().getRequest<Request>();

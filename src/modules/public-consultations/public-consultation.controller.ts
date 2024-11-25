@@ -13,6 +13,8 @@ import { AuthUserInfo, AuthUserInfoDecorator } from "../auth/decorators/auth-use
 import UpdatePublicConsultationRequestDTO from "./dtos/update-public-consultation-request.dto";
 import { PaginatorDecorator } from "src/core/decorators/pagination.decorator";
 import PageRequest from "src/core/models/page-request";
+import GetPublicConsultationCreatedByMonthUseCase from "./usecases/get-public-consultation-created-by-month.usecase";
+import GetVotesCreatedByMonthUseCase from "./usecases/get-votes-created-by-month.usecase";
 
 
 @UseGuards(AuthGuard, RoleGuard)
@@ -28,7 +30,9 @@ export default class PublicConsultationController {
         private _findAllPublicConsultationUsecase: FindAllPublicConsultationUseCase,
         private _updatePublicConsultationUseCase: UpdatePublicConsultationUseCase,
         private _deletePublicConsultationByIdUseCase: DeletePublicConsultationByIdUseCase,
-        private _registerVotePublicConsultationUseCase: RegisterVotePublicConsultationUseCase
+        private _registerVotePublicConsultationUseCase: RegisterVotePublicConsultationUseCase,
+        private _getPublicConsultationCreatedByMonthUseCase: GetPublicConsultationCreatedByMonthUseCase,
+        private _getVotesCreatedByMonthUseCase: GetVotesCreatedByMonthUseCase,
     ) {}
 
     @Post()
@@ -79,5 +83,21 @@ export default class PublicConsultationController {
             publicConsultationId,
             loggedUserId: authUserInfo.sub,
         });
+    }
+
+    @Get('/stats/by-month')
+    async getCreatedAndVotedConsultationsInMonth() {
+        const [
+            publicConsultationCreatedByMonth,
+            votesCreatedByMonth,
+        ] = await Promise.all([
+            this._getPublicConsultationCreatedByMonthUseCase.execute(), 
+            this._getVotesCreatedByMonthUseCase.execute()
+        ]);
+
+        return {
+            publicConsultationCreatedByMonth,
+            votesCreatedByMonth,
+        };
     }
 }

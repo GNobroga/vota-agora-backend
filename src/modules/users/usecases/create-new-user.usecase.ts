@@ -41,7 +41,7 @@ export default class CreateNewUserUseCase implements IDefaultUseCase<CreateNewUs
         const entity = await this._userRepository.findOneBy({ document: input.document });
 
         if (!isNull(entity)) {
-            throw new BadRequestException(`O documento ${input.document} não está disponível.`);
+            throw new BadRequestException(`O documento ${input.document.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4')} não está disponível.`);
         }
 
         const accountInfo = await this._blockchainService.createNewAccount();
@@ -51,7 +51,8 @@ export default class CreateNewUserUseCase implements IDefaultUseCase<CreateNewUs
             password: await bcrypt.hash(input.password, 10),
             accountAddress: accountInfo.accountAddress,
             privateKey: accountInfo.privateKey,
-            role: RoleType.ADMIN,
+            role: RoleType.USER,
+            rewardTokenAddress: this._blockchainService.tokenInfo.tokenAddress,
         });
 
         await this._blockchainService.transferEther(accountInfo.accountAddress);

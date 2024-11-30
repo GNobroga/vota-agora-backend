@@ -1,5 +1,5 @@
 import { ViewColumn, ViewEntity } from "typeorm";
-import Vote from "../entities/vote-count.entity";
+import Vote from "../entities/vote.entity";
 
 @ViewEntity({
     expression: dataSource => {
@@ -8,9 +8,10 @@ import Vote from "../entities/vote-count.entity";
             .addSelect("strftime('%m', vote.created_at) AS month")  
             .addSelect("strftime('%d', vote.created_at) AS day")  
             .addSelect("COUNT(*) AS totalCreated") 
+            .addSelect("vote.user_id", "ownerId")
             .from(Vote, 'vote')
             .where("strftime('%Y', vote.created_at) = strftime('%Y', 'now')")  
-            .groupBy("strftime('%Y', vote.created_at), strftime('%m', vote.created_at)") 
+            .groupBy("vote.user_id, strftime('%Y', vote.created_at), strftime('%m', vote.created_at)") 
             .orderBy("year", "ASC")
             .addOrderBy("month", "ASC");
     },
@@ -24,4 +25,6 @@ export default class VotesCreatedByMonthProjection {
     day: number;
     @ViewColumn()
     totalCreated: number;
+    @ViewColumn()
+    ownerId: number;
 }

@@ -13,6 +13,7 @@ export type CreateNewPublicConsultationInput = {
     description: string;
     imageUrl: string;
     endDate: Date;
+    initialDate?: Date;
     category: string;
 }
 
@@ -64,7 +65,7 @@ export default class CreateNewPublicConsultationUseCase implements IDefaultUseCa
             title: input.title,
             description: input.description,
             imageUrl: input.imageUrl,
-            initialDate: today.toDate(),
+            initialDate: input.initialDate ?? today.toDate(),
             endDate: endDate.toDate(),
             owner: user,
             category: input.category,

@@ -3,12 +3,13 @@ import { InjectRepository } from "@nestjs/typeorm";
 import PageRequest from "src/core/models/page-request";
 import IDefaultUseCase from "src/core/usecases/default.usecase";
 import BlockchainService from "src/infrastructure/services/blockchain.service";
-import { Repository } from "typeorm";
-import PublicConsultation from "../entities/public-consultation.entity";
 import User from "src/modules/users/user.entity";
+import { Raw, Repository } from "typeorm";
+import PublicConsultation from "../entities/public-consultation.entity";
 
 export type FindAllPublicConsultationInput = {
     loggedUserId: number;
+    accountAddress: string;
     pageRequest: PageRequest;
 }
 
@@ -24,6 +25,7 @@ export type FindAllPublicConsultationOutput = {
     status: 'open' | 'closed';
     voted?: boolean;
     owner?: boolean;
+    createdAt: Date;
 }
 
 @Injectable()
@@ -38,8 +40,17 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
     ) {}
 
 
-    async execute({ loggedUserId, pageRequest: { page, size, sort } }: FindAllPublicConsultationInput): Promise<FindAllPublicConsultationOutput[]> {
+    async execute({ loggedUserId, pageRequest: { q, page, size, sort }, accountAddress, }: FindAllPublicConsultationInput): Promise<FindAllPublicConsultationOutput[]> {
         const outputs: FindAllPublicConsultationOutput[] = [];
+        const likeQueries = [
+            {
+                title: Raw((alias) => `LOWER(${alias}) LIKE :q`, { q: `%${q.toLowerCase()}%` }),
+            },
+            {
+                description: Raw((alias) => `LOWER(${alias}) LIKE :q`, { q: `%${q.toLowerCase()}%` }),
+            },
+        ];
+        const where = (q && q.trim() !== '') ? likeQueries : undefined;
         const entities = await this._publicConsultationRepository.find({
             skip: (page - 1) * size,
             take: size,
@@ -47,15 +58,15 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
                 id: sort,
             },
             relations: ['owner'],
+            where,
         });
 
-        const loggedUser = await this._userRepository.findOneBy({ id: loggedUserId });
 
         for (const entity of entities) {
             const output = this.mapEntityToOutput(entity)
             output.owner = entity.owner.id === loggedUserId;
             if (!output.owner) {
-                output.voted = await this.loggedUserHasVoted(loggedUser.accountAddress, entity.id);
+                output.voted = await this.loggedUserHasVoted(accountAddress, entity.id);
             }
             outputs.push(output);
         }
@@ -74,6 +85,7 @@ export default class FindAllPublicConsultationUseCase implements IDefaultUseCase
             imageUrl: entity.imageUrl,
             category: entity.category,
             status: entity.status,
+            createdAt: entity.createdAt,
         };
     }
 

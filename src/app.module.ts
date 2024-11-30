@@ -8,6 +8,8 @@ import AuthModule from './modules/auth/auth.module';
 import PublicConsultationModule from './modules/public-consultations/public-consultation.module';
 import CreateNewUserUseCase from './modules/users/usecases/create-new-user.usecase';
 import UserModule from './modules/users/user.module';
+import UserDataSeed from './modules/seeds/user-data.seed';
+import SeedModule from './modules/seeds/seed.module';
 
 @Module({
   imports: [
@@ -36,7 +38,8 @@ import UserModule from './modules/users/user.module';
     InfrastructureModule,
     UserModule,
     PublicConsultationModule,
-    AuthModule
+    AuthModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
@@ -46,15 +49,17 @@ export class AppModule implements OnModuleInit {
   constructor(
     readonly blockchainService: BlockchainService,
     readonly createNewUserUseCase: CreateNewUserUseCase,
+    readonly userDataSeed: UserDataSeed,
   ) {} 
   
   async onModuleInit() {
     await this.blockchainService.init(async () => {
-        await this.createNewUserUseCase.execute({
+        const { id } = await this.createNewUserUseCase.execute({
           fullName: 'Gabriel Cardoso Girarde',
           document: '173.645.097-20',
           password: 'camilo123',
       });
+      await this.userDataSeed.populate(id);
     });
   }
   

@@ -3,6 +3,10 @@ import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
 import VotesCreatedByMonthProjection from "../projections/votes-created-by-month.projection";
 
+interface Input {
+    loggedUserId: number;
+}
+
 @Injectable()
 export default class GetVotesCreatedByMonthUseCase {
     constructor(
@@ -10,7 +14,11 @@ export default class GetVotesCreatedByMonthUseCase {
         readonly dataSource: DataSource,
     ) {}
 
-    async execute() {
-        return this.dataSource.getRepository(VotesCreatedByMonthProjection).find();
+    async execute({ loggedUserId }: Input) {
+        return this.dataSource.getRepository(VotesCreatedByMonthProjection).find({
+            where: {
+                ownerId: loggedUserId,
+            },
+        });
     }
 }

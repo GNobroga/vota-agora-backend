@@ -4,14 +4,16 @@ import AppConfig from "./configs/app.config";
 import BlockchainService from "./services/blockchain.service";
 
 @Module({
-    imports: [ConfigModule],
+    imports: [
+        ConfigModule,
+    ],
     providers: [
         AppConfig,
-        BlockchainService
+        BlockchainService,
     ],
     exports: [
         AppConfig,
-        BlockchainService
+        BlockchainService,
     ]
 })
 export default class InfrastructureModule {}

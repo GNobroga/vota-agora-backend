@@ -1,5 +1,5 @@
 import AbstractEntity from "src/infrastructure/entities/abstract-entity.entity";
-import { Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import PublicConsultation from "./public-consultation.entity";
 import User from "src/modules/users/user.entity";
 
@@ -13,4 +13,10 @@ export default class Vote extends AbstractEntity {
     @ManyToOne(() => User)
     @JoinColumn({ name: 'user_id' })
     user: User;
+
+    @Column({ type: 'text' })
+    rewardTokenAcquired: string;
+
+    @Column({ type: 'boolean', default: false, })
+    received: boolean; // Pra indicar que foi recebido por meio de um voto de outra pessoa.
 }

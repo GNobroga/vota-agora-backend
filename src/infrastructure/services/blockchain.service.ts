@@ -60,6 +60,16 @@ export default class BlockchainService {
         return await this._contract.methods.balanceOf(address).call();
     }
 
+    async getBalanceInEtherFromAccountAddress(accountAddress: string): Promise<string> {
+        try {
+            const balanceWei = await this._web3.eth.getBalance(accountAddress);
+            const balanceInEther =  this._web3.utils.fromWei(balanceWei, 'ether');
+            return balanceInEther;
+        } catch (error) {
+            this._logger.error('Erro ao obter quantida de ethers para a conta: ', accountAddress);
+        }
+    }
+
     async hasVoted(accountAddress: string, publicConsultationId: number): Promise<boolean> {
         try {
             return await this._contract.methods.hasVoted(publicConsultationId)
@@ -89,12 +99,12 @@ export default class BlockchainService {
         }
     }
 
-    async transferReward(targetAddress: string): Promise<boolean> {
+    async transferReward(targetAddress: string, value: bigint = BlockchainService.REWARD_TOKEN_TO_SEND): Promise<boolean> {
         try {
             const { accountAddress } = this._tokenInfo;
 
             await this._contract.methods
-                .transfer(targetAddress, BlockchainService.REWARD_TOKEN_TO_SEND)
+                .transfer(targetAddress, value)
                 .send({ from: accountAddress });
 
             this._logger.log(`Transferencia de Reward para ${targetAddress} realizada com sucesso.`);

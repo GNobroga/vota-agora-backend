@@ -10,6 +10,9 @@ export default class User extends AbstractEntity {
     @Column()
     document: string;
 
+    @Column({ nullable: true, })
+    imageUrl: string;
+
     @Column()
     password: string;
 

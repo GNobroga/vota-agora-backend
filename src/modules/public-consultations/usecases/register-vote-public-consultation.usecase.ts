@@ -6,8 +6,8 @@ import BlockchainService from "src/infrastructure/services/blockchain.service";
 import User from "src/modules/users/user.entity";
 import { Repository } from "typeorm";
 import PublicConsultation from "../entities/public-consultation.entity";
-import VoteCount from "../entities/vote-count.entity";
-import Vote from "../entities/vote-count.entity";
+import VoteCount from "../entities/vote.entity";
+import Vote from "../entities/vote.entity";
 
 export type RegisterVotePublicConsultationInput = {
     publicConsultationId: number;
@@ -68,14 +68,25 @@ export default class RegisterVotePublicConsultationUseCase implements IDefaultUs
             }
         }
 
-        await this._voteRepository.save({
-            publicConsultation,
-            user: { id: input.loggedUserId, }
-        });
-    
+        const rewardToOwner = BigInt(50) * BigInt(10 ** 18);
+        
         await Promise.all([
             this._blockchainService.transferReward(user.accountAddress),
-            this._blockchainService.transferReward(publicConsultation.owner.accountAddress)
+            this._blockchainService.transferReward(publicConsultation.owner.accountAddress, rewardToOwner),
+        ]);
+
+        await Promise.all([
+            this._voteRepository.save({
+                publicConsultation,
+                user: { id: publicConsultation.owner.id, },
+                rewardTokenAcquired: rewardToOwner.toString(),
+                received: true,
+            }),
+            this._voteRepository.save({
+                publicConsultation,
+                user: { id: input.loggedUserId, },
+                rewardTokenAcquired: BlockchainService.REWARD_TOKEN_TO_SEND.toString(),
+            })
         ]);
 
         publicConsultation.participationCount++;

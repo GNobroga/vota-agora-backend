@@ -15,6 +15,8 @@ import { PaginatorDecorator } from "src/core/decorators/pagination.decorator";
 import PageRequest from "src/core/models/page-request";
 import GetPublicConsultationCreatedByMonthUseCase from "./usecases/get-public-consultation-created-by-month.usecase";
 import GetVotesCreatedByMonthUseCase from "./usecases/get-votes-created-by-month.usecase";
+import GetPublicConsultationByIdUseCase from "./usecases/get-public-consultation-by-id.usecase";
+import FindAllVoteUseCase from "./usecases/find-all-vote.usecase";
 
 
 @UseGuards(AuthGuard, RoleGuard)
@@ -33,6 +35,8 @@ export default class PublicConsultationController {
         private _registerVotePublicConsultationUseCase: RegisterVotePublicConsultationUseCase,
         private _getPublicConsultationCreatedByMonthUseCase: GetPublicConsultationCreatedByMonthUseCase,
         private _getVotesCreatedByMonthUseCase: GetVotesCreatedByMonthUseCase,
+        private _getPublicConsultationById: GetPublicConsultationByIdUseCase,
+        private _findVotesUseCase: FindAllVoteUseCase,
     ) {}
 
     @Post()
@@ -69,10 +73,20 @@ export default class PublicConsultationController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    async findAll(@PaginatorDecorator() pageRequest: PageRequest, @AuthUserInfoDecorator() authUserInfo: AuthUserInfo) {
+    async findAll(@PaginatorDecorator() pageRequest: PageRequest, @AuthUserInfoDecorator() { sub, accountAddress }: AuthUserInfo) {
         return this._findAllPublicConsultationUsecase.execute({
-            loggedUserId: authUserInfo.sub,
+            loggedUserId: sub,
+            accountAddress,
             pageRequest,
+        });
+    }
+
+    @Get(":id")
+    async getById(@Param('id', ParseIntPipe) id: number, @AuthUserInfoDecorator() { accountAddress, sub }: AuthUserInfo) {
+        return this._getPublicConsultationById.execute({
+            targetId: id,
+            accountAddress,
+            loggedUserId: sub,
         });
     }
 
@@ -86,18 +100,23 @@ export default class PublicConsultationController {
     }
 
     @Get('/stats/by-month')
-    async getCreatedAndVotedConsultationsInMonth() {
+    async getCreatedAndVotedConsultationsInMonth(@AuthUserInfoDecorator() { sub: loggedUserId }: AuthUserInfo) {
         const [
             publicConsultationCreatedByMonth,
             votesCreatedByMonth,
         ] = await Promise.all([
-            this._getPublicConsultationCreatedByMonthUseCase.execute(), 
-            this._getVotesCreatedByMonthUseCase.execute()
+            this._getPublicConsultationCreatedByMonthUseCase.execute({ loggedUserId }), 
+            this._getVotesCreatedByMonthUseCase.execute({ loggedUserId })
         ]);
 
         return {
             publicConsultationCreatedByMonth,
             votesCreatedByMonth,
         };
+    }
+
+    @Get('/list/vote')
+    async getVotes(@AuthUserInfoDecorator() { sub: id }: AuthUserInfo) {
+        return this._findVotesUseCase.execute({ loggedUserId: id });
     }
 }

@@ -12,7 +12,7 @@ import User from "./user.entity";
     ],
     controllers: [UserController],
     providers: [
-        ...usecases
+        ...usecases,
     ],
     exports: [
         TypeOrmModule.forFeature([User]),

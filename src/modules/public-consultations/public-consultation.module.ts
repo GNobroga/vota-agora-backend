@@ -4,7 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import InfrastructureModule from "src/infrastructure/infrastructure.module";
 import UserModule from "../users/user.module";
 import PublicConsultation from "./entities/public-consultation.entity";
-import VoteCount from "./entities/vote-count.entity";
+import VoteCount from "./entities/vote.entity";
 import PublicConsultationController from "./public-consultation.controller";
 import PublicConsultationExpirationCheckerScheduler from "./scheduler/public-consultation-expiration-checker.scheduler";
 import usecases from "./usecases";
@@ -20,6 +20,9 @@ import usecases from "./usecases";
     providers: [
         ...usecases,
         PublicConsultationExpirationCheckerScheduler
-    ]
+    ],
+    exports: [
+        ...usecases,
+    ],
 })
 export default class PublicConsultationModule {}

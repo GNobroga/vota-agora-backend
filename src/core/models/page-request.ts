@@ -7,7 +7,11 @@ export default class PageRequest {
     static readonly DEFAULT_VALUE = 1;
     static readonly DEFAULT_SORT: SortType = 'asc';
 
-    constructor(private _page: number, private _size: number, private _sort: SortType) {}
+    constructor(private _q: string, private _page: number, private _size: number, private _sort: SortType) {}
+
+    get q() {
+        return this._q;
+    }
 
     get page() {
         return Math.max(PageRequest.DEFAULT_VALUE, this._page);

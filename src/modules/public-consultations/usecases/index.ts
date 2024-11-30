@@ -1,6 +1,8 @@
 import CreateNewPublicConsultationUseCase from "./create-new-public-consultation.usecase";
 import DeletePublicConsultationByIdUseCase from "./delete-public-consultation-by-id.usecase";
 import FindAllPublicConsultationUseCase from "./find-all-public-consultation.usecase";
+import FindAllVoteUseCase from "./find-all-vote.usecase";
+import GetPublicConsultationByIdUseCase from "./get-public-consultation-by-id.usecase";
 import GetPublicConsultationCreatedByMonthUseCase from "./get-public-consultation-created-by-month.usecase";
 import GetVotesCreatedByMonthUseCase from "./get-votes-created-by-month.usecase";
 import RegisterVotePublicConsultationUseCase from "./register-vote-public-consultation.usecase";
@@ -14,4 +16,6 @@ export default [
     UpdatePublicConsultationUseCase,
     GetPublicConsultationCreatedByMonthUseCase,
     GetVotesCreatedByMonthUseCase,
+    GetPublicConsultationByIdUseCase,
+    FindAllVoteUseCase,
 ];

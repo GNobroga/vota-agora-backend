@@ -3,6 +3,10 @@ import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
 import { PublicConsultationCreatedByMonthProjection } from "../projections/public-consultation-created-by-month.projection";
 
+interface Input {
+    loggedUserId: number;
+}
+
 @Injectable()
 export default class GetPublicConsultationCreatedByMonthUseCase {
 
@@ -11,7 +15,11 @@ export default class GetPublicConsultationCreatedByMonthUseCase {
         readonly dataSource: DataSource,
     ) {}
 
-    async execute() {
-        return this.dataSource.getRepository(PublicConsultationCreatedByMonthProjection).find();
+    async execute({ loggedUserId }: Input) {
+        return this.dataSource.getRepository(PublicConsultationCreatedByMonthProjection).find({
+            where: {
+                ownerId: loggedUserId,
+            },
+        });
     }
 }
